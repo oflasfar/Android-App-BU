@@ -1,5 +1,7 @@
 package com.example.p42_abc.models;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Book {
@@ -45,6 +47,34 @@ public class Book {
 
     public void setTags(List<String> tags) {
         this._tags = tags;
+    }
+
+    // Test méthode pour l'app en dure
+    public static List<Book> getBooks() {
+        List<Book> books = new ArrayList<>();
+
+        books.add(new Book(
+                "1",
+                "Le Seigneur des Anneaux",
+                "Un anneau pour les gouverner tous.",
+                Arrays.asList("Fantasy", "Aventure", "Classique")
+        ));
+
+        books.add(new Book(
+                "2",
+                "1984",
+                "Une dystopie glaçante sur un régime totalitaire.",
+                Arrays.asList("Dystopie", "Science-Fiction")
+        ));
+
+        books.add(new Book(
+                "3",
+                "Dune",
+                "L'histoire de Paul Atréides sur la planète désertique Arrakis.",
+                Arrays.asList("Science-Fiction", "Espace")
+        ));
+
+        return books;
     }
 
 }
