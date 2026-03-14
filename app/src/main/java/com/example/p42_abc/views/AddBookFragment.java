@@ -46,7 +46,7 @@ public class AddBookFragment extends Fragment {
             String title = titleEdit.getText() != null ? titleEdit.getText().toString() : "";
             String desc = descEdit.getText() != null ? descEdit.getText().toString() : "";
             String tagsString = tagsEdit.getText() != null ? tagsEdit.getText().toString() : "";
-
+            // forcer à remplir tout les champs
             if(title.isEmpty() || desc.isEmpty() || tagsString.isEmpty()){
                 Toast.makeText(requireContext(), "Veuillez remplir tout les champs", Toast.LENGTH_SHORT).show();
                 return;
