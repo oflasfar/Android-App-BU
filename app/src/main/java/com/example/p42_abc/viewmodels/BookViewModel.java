@@ -25,4 +25,13 @@ public class BookViewModel extends ViewModel {
         List<Book> list = Book.getBooks();
         booksData.setValue(list);
     }
+
+    public void addBook(Book book){
+       List<Book> list = booksData.getValue();
+       if(list != null){
+           list.add(book);
+           // refresh la list de liveData
+           booksData.setValue(list);
+       }
+    }
 }
