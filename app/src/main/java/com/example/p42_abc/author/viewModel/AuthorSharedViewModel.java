@@ -45,4 +45,17 @@ public class AuthorSharedViewModel extends ViewModel {
             authorsLiveData.setValue(currentAuthors);
         }
     }
+
+    public void deleteAuthor(int id) {
+        // 1. On récupère la liste qui est actuellement dans le LiveData
+        List<Author> currentAuthors = authorsLiveData.getValue();
+
+        if (currentAuthors != null) {
+            // 2. On cherche l'auteur qui a cet ID et on le vire de la liste
+            currentAuthors.removeIf(author -> author.getId() == id);
+
+
+            authorsLiveData.setValue(currentAuthors);
+        }
+    }
 }
