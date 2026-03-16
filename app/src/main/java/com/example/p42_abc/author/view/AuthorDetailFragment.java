@@ -16,6 +16,7 @@ import com.example.p42_abc.models.Book;
 import com.example.p42_abc.R;
 import com.example.p42_abc.author.model.Author;
 import com.example.p42_abc.author.viewModel.AuthorSharedViewModel;
+import com.example.p42_abc.view.AddBookFragment;
 
 public class AuthorDetailFragment extends Fragment {
 
@@ -80,6 +81,12 @@ public class AuthorDetailFragment extends Fragment {
         });
 
 
+        view.findViewById(R.id.button_add_book_to_author).setOnClickListener(v -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new AddBookFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         Button btnBack = view.findViewById(R.id.buttonBack);
         btnBack.setOnClickListener(v -> {

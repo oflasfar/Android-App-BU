@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.p42_abc.R;
+import com.example.p42_abc.author.model.Author;
+import com.example.p42_abc.author.viewModel.AuthorSharedViewModel;
 import com.example.p42_abc.models.Book;
 import com.example.p42_abc.models.Tag;
 import com.example.p42_abc.viewModels.BookViewModel;
@@ -26,6 +28,7 @@ import java.util.UUID;
 public class AddBookFragment extends Fragment {
 
     private BookViewModel bookViewModel;
+    private AuthorSharedViewModel authorSharedViewModel;
 
     @Nullable
     @Override
@@ -36,8 +39,9 @@ public class AddBookFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // on récup le meme viewModel que la list de livre donc pas de this
+
         this.bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
+        this.authorSharedViewModel = new ViewModelProvider(requireActivity()).get(AuthorSharedViewModel.class);
 
         TextInputEditText titleEdit = view.findViewById(R.id.edit_text_title);
         TextInputEditText descEdit = view.findViewById(R.id.edit_text_description);
@@ -51,34 +55,33 @@ public class AddBookFragment extends Fragment {
 
             // forcer à remplir tout les champs
             if(title.isEmpty() || desc.isEmpty() || tagsString.isEmpty()){
-                // N'oublie pas d'importer Toast si besoin (Alt+Entrée)
                 Toast.makeText(requireContext(), "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
                 return;
             }
+            Author currentAuthor = authorSharedViewModel.getSelected().getValue();
 
-            // 1. On sépare les mots tapés par l'utilisateur (les String)
+            if (currentAuthor == null || currentAuthor.getId() <= 0) {
+                Toast.makeText(requireContext(), "Erreur : Auteur introuvable", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             List<String> stringTags = Arrays.asList(tagsString.split("\\s*,\\s*"));
-
-            // 2. On crée une liste vide de "vrais" Tags
             List<Tag> tags = new ArrayList<>();
 
-            // 3. On transforme chaque mot en objet Tag
             for (String tagName : stringTags) {
                 Tag newTag = new Tag();
-                newTag.setName(tagName);
+                newTag.setName(tagName.trim()); // trim() est super pour enlever les espaces inutiles que l alexis aurait tapés
                 tags.add(newTag);
             }
 
-            // On crée un livre vide et on le remplit
             Book newBook = new Book();
             newBook.setTitle(title);
-            newBook.setDescription(desc); // Le serveur s'en fiche, mais ça évite de casser ton code
-            newBook.setTags(tags); // Et bim, on donne la bonne liste !
-            ///il faut regler apres por ajouter un livre
+            newBook.setDescription(desc);
+            newBook.setTags(tags);
 
-            bookViewModel.addBook(newBook);
+            bookViewModel.addBook(currentAuthor.getId(), newBook);
 
-            getParentFragmentManager().popBackStack(); // on retourne au frag parent car on a fini
+            getParentFragmentManager().popBackStack();
         });
     }
 }
