@@ -37,7 +37,7 @@ public class BookListFragment extends Fragment {
 
         bookAdapter = new BookAdapter(clickedBook ->{
             bookViewModel.selectBook(clickedBook);
-            getParentFragmentManager().beginTransaction().replace(R.id.main, new BookDetailFragment())
+            getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new BookDetailFragment())
                     .addToBackStack(null) // bouton de retour du téléphone
                     .commit();
         });
@@ -54,7 +54,7 @@ public class BookListFragment extends Fragment {
             }
         });
         view.findViewById(R.id.fab_add_book).setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction().replace(R.id.main, new AddBookFragment()).addToBackStack(null).commit();
+            getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddBookFragment()).addToBackStack(null).commit();
         });
     }
 }

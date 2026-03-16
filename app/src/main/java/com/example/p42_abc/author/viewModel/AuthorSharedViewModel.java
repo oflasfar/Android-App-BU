@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.p42_abc.author.model.Author;
-import com.example.p42_abc.author.model.Book;
 import com.example.p42_abc.repository.DataRepository;
-
+import com.example.p42_abc.models.Book;
 import java.util.List;
 
 public class AuthorSharedViewModel extends ViewModel {
@@ -35,7 +34,7 @@ public class AuthorSharedViewModel extends ViewModel {
         repository.deleteAuthor(id);
     }
 
-    // On demande maintenant le prénom ET le nom
+    // On demande maintenant le prénom et le nom
     public void addAuthor(String firstName, String lastName) {
         Author newAuthor = new Author();
         newAuthor.setFirstname(firstName);

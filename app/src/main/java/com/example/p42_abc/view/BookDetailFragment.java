@@ -29,7 +29,6 @@ public class BookDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView titleText = view.findViewById(R.id.text_view_detail_title);
-        TextView descText = view.findViewById(R.id.text_view_detail_description);
         TextView tagsText = view.findViewById(R.id.text_view_detail_tags);
         Button deleteButton = view.findViewById(R.id.button_delete_book);
 
@@ -38,10 +37,20 @@ public class BookDetailFragment extends Fragment {
         bookViewModel.getSelectedBook().observe(getViewLifecycleOwner(), book -> {
             if (book != null) {
                 titleText.setText(book.getTitle());
-                descText.setText(book.getDescription());
 
-                if (book.getTags() != null) {
-                    tagsText.setText(TextUtils.join(", ", book.getTags()));
+                if (book.getTags() != null && !book.getTags().isEmpty()) {
+                    // On extrait juste les noms de chaque objet Tag
+                    StringBuilder tagNames = new StringBuilder();
+                    for (int i = 0; i < book.getTags().size(); i++) {
+                        tagNames.append(book.getTags().get(i).getName());
+                        // On ajoute une virgule s'il y a un autre tag après
+                        if (i < book.getTags().size() - 1) {
+                            tagNames.append(", ");
+                        }
+                    }
+                    tagsText.setText(tagNames.toString());
+                } else {
+                    tagsText.setText("Aucun tag");
                 }
 
                 // bouton de suppression
@@ -50,6 +59,9 @@ public class BookDetailFragment extends Fragment {
                     getParentFragmentManager().popBackStack(); // on retourne à la liste
                 });
             }
+        });
+        view.findViewById(R.id.button_back).setOnClickListener(v -> {
+            getParentFragmentManager().popBackStack();
         });
     }
 }

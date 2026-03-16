@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.p42_abc.author.model.Author;
-import com.example.p42_abc.author.model.Book;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +15,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import com.example.p42_abc.models.Book;
 
 public class DataRepository {
     private static DataRepository instance;
-    private final AuthorApiService apiService;
+    private final ApiService apiService;
     private final MutableLiveData<List<Author>> allAuthorsLiveData = new MutableLiveData<>();
     private DataRepository() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -27,7 +27,7 @@ public class DataRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        apiService = retrofit.create(AuthorApiService.class);
+        apiService = retrofit.create(ApiService.class);
     }
     public static synchronized DataRepository getInstance() {
         if (instance == null) {
@@ -112,6 +112,53 @@ public class DataRepository {
             public void onFailure(Call<List<Book>> call, Throwable t) {
                 // En cas d'erreur, on met une liste vide pour ne pas faire planter l'appli
                 authorBooksLiveData.setValue(new ArrayList<>());
+            }
+        });
+    }
+
+    /// //////////////////////////////////////////////
+    private final MutableLiveData<List<Book>> allBooksLiveData = new MutableLiveData<>();
+
+    public LiveData<List<Book>> getAllBooksLiveData() { return allBooksLiveData; }
+
+    public void fetchAllBooks() {
+        apiService.getAllBooks().enqueue(new retrofit2.Callback<List<Book>>() {
+            @Override
+            public void onResponse(retrofit2.Call<List<Book>> call, retrofit2.Response<List<Book>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    allBooksLiveData.setValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(retrofit2.Call<List<Book>> call, Throwable t) {}
+        });
+    }
+
+    public void deleteBook(int id) {
+        apiService.deleteBook(id).enqueue(new retrofit2.Callback<Void>() {
+            @Override
+            public void onResponse(retrofit2.Call<Void> call, retrofit2.Response<Void> response) {
+                if (response.isSuccessful()) fetchAllBooks(); // Met à jour la liste
+            }
+            @Override
+            public void onFailure(retrofit2.Call<Void> call, Throwable t) {}
+        });
+    }
+
+    public void createBook(int authorId, Book book) {
+        apiService.createBook(authorId, book).enqueue(new retrofit2.Callback<Book>() {
+            @Override
+            public void onResponse(retrofit2.Call<Book> call, retrofit2.Response<Book> response) {
+                if (response.isSuccessful()) {
+                    fetchAllBooks(); // On rafraîchit la liste si ça a marché !
+                } else {
+                    android.util.Log.e("API_BUG", "Erreur ajout livre : " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<Book> call, Throwable t) {
+                android.util.Log.e("API_BUG", "Crash réseau : " + t.getMessage());
             }
         });
     }

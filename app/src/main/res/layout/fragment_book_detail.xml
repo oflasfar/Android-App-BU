@@ -11,14 +11,13 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <ImageView
-            android:id="@+id/image_view_detail_cover"
-            android:layout_width="120dp"
-            android:layout_height="160dp"
-            app:layout_constraintEnd_toEndOf="parent"
+        <Button
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retour"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_view_detail_title"
@@ -29,20 +28,8 @@
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_view_detail_cover"
+            app:layout_constraintTop_toBottomOf="@id/button_back"
             tools:text="Titre du livre" />
-
-        <TextView
-            android:id="@+id/text_view_detail_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:textSize="16sp"
-            android:lineSpacingExtra="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_view_detail_title"
-            tools:text="description du livre : .........." />
 
         <TextView
             android:id="@+id/text_view_tags_label"
@@ -51,7 +38,7 @@
             android:layout_marginTop="24dp"
             android:text="Tags :"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_view_detail_description" />
+            app:layout_constraintTop_toBottomOf="@id/text_view_detail_title" />
 
         <TextView
             android:id="@+id/text_view_detail_tags"
@@ -70,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Supprimé ce livre"
+            android:text="Supprimer ce livre"
             app:backgroundTint="@android:color/holo_red_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

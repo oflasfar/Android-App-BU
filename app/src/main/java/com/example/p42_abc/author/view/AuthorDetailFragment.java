@@ -12,10 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
+import com.example.p42_abc.models.Book;
 import com.example.p42_abc.R;
 import com.example.p42_abc.author.model.Author;
-import com.example.p42_abc.author.model.Book;
 import com.example.p42_abc.author.viewModel.AuthorSharedViewModel;
 
 public class AuthorDetailFragment extends Fragment {
@@ -33,7 +32,7 @@ public class AuthorDetailFragment extends Fragment {
         TextView textName = view.findViewById(R.id.textViewDetailAuthorName);
         Button btnDelete = view.findViewById(R.id.buttonDeleteAuthor);
 
-        // On utilise bien requireActivity() pour récupérer le MÊME ViewModel que la liste
+        // On utilise bien requireActivity() pour récupérer le meme ViewModel que la liste
         AuthorSharedViewModel model = new ViewModelProvider(requireActivity()).get(AuthorSharedViewModel.class);
 
         // On regarde ce qu'il y a dans "getSelected()"
@@ -84,7 +83,7 @@ public class AuthorDetailFragment extends Fragment {
 
         Button btnBack = view.findViewById(R.id.buttonBack);
         btnBack.setOnClickListener(v -> {
-            // Cette commande simule l'appui sur la touche "Retour" du téléphone
+            // Cette commande simule lappui sur la touche "Retour" du telephone c juste le depilementd e la île
             requireActivity().getSupportFragmentManager().popBackStack();
         });
     }

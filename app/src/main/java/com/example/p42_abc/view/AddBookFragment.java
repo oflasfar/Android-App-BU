@@ -14,9 +14,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.p42_abc.R;
 import com.example.p42_abc.models.Book;
+import com.example.p42_abc.models.Tag;
 import com.example.p42_abc.viewModels.BookViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -46,18 +48,37 @@ public class AddBookFragment extends Fragment {
             String title = titleEdit.getText() != null ? titleEdit.getText().toString() : "";
             String desc = descEdit.getText() != null ? descEdit.getText().toString() : "";
             String tagsString = tagsEdit.getText() != null ? tagsEdit.getText().toString() : "";
+
             // forcer à remplir tout les champs
             if(title.isEmpty() || desc.isEmpty() || tagsString.isEmpty()){
-                Toast.makeText(requireContext(), "Veuillez remplir tout les champs", Toast.LENGTH_SHORT).show();
+                // N'oublie pas d'importer Toast si besoin (Alt+Entrée)
+                Toast.makeText(requireContext(), "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
                 return;
             }
-            List<String> tags = Arrays.asList(tagsString.split("\\s*,\\s*"));
 
-            Book newBook = new Book(UUID.randomUUID().toString(), title, desc, tags);
+            // 1. On sépare les mots tapés par l'utilisateur (les String)
+            List<String> stringTags = Arrays.asList(tagsString.split("\\s*,\\s*"));
+
+            // 2. On crée une liste vide de "vrais" Tags
+            List<Tag> tags = new ArrayList<>();
+
+            // 3. On transforme chaque mot en objet Tag
+            for (String tagName : stringTags) {
+                Tag newTag = new Tag();
+                newTag.setName(tagName);
+                tags.add(newTag);
+            }
+
+            // On crée un livre vide et on le remplit
+            Book newBook = new Book();
+            newBook.setTitle(title);
+            newBook.setDescription(desc); // Le serveur s'en fiche, mais ça évite de casser ton code
+            newBook.setTags(tags); // Et bim, on donne la bonne liste !
+            ///il faut regler apres por ajouter un livre
 
             bookViewModel.addBook(newBook);
 
-            getParentFragmentManager().popBackStack(); // on retourne au frag parent car on à fini
+            getParentFragmentManager().popBackStack(); // on retourne au frag parent car on a fini
         });
     }
 }

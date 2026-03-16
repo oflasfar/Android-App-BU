@@ -5,76 +5,34 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Book {
-    private String _id;
-    private String _title;
-    private String _description;
-    private List<String> _tags;
 
-    public Book(String id, String title, String description, List<String> tags){
-        this._id = id;
-        this._title = title;
-        this._description = description;
-        this._tags = tags;
-    }
+    private Integer id;
+    private String title;
+    private String description;
+    private List<Tag> tags;
+    private Integer publication_year;
+    private Integer authorId;
 
-    public String getId() {
-        return _id;
-    }
+    public Book() {} // Constructeur vide
 
-    public void setId(String id) {
-        this._id = id;
-    }
 
-    public String getTitle() {
-        return _title;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setTitle(String title) {
-        this._title = title;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public String getDescription() {
-        return _description;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setDescription(String description) {
-        this._description = description;
-    }
+    public Integer getPublicationYear() { return publication_year; }
+    public void setPublicationYear(Integer publication_year) { this.publication_year = publication_year; }
 
-    public List<String> getTags() {
-        return _tags;
-    }
+    public Integer getAuthorId() { return authorId; }
+    public void setAuthorId(Integer authorId) { this.authorId = authorId; }
 
-    public void setTags(List<String> tags) {
-        this._tags = tags;
-    }
 
-    // Test méthode pour l'app en dure
-    public static List<Book> getBooks() {
-        List<Book> books = new ArrayList<>();
-
-        books.add(new Book(
-                "1",
-                "Le Seigneur des Anneaux",
-                "Un anneau pour les gouverner tous.",
-                Arrays.asList("Fantasy", "Aventure", "Classique")
-        ));
-
-        books.add(new Book(
-                "2",
-                "1984",
-                "Une dystopie glaçante sur un régime totalitaire.",
-                Arrays.asList("Dystopie", "Science-Fiction")
-        ));
-
-        books.add(new Book(
-                "3",
-                "Dune",
-                "L'histoire de Paul Atréides sur la planète désertique Arrakis.",
-                Arrays.asList("Science-Fiction", "Espace")
-        ));
-
-        return books;
-    }
-
+    // Et remplace les méthodes en bas :
+    public List<Tag> getTags() { return tags; }
+    public void setTags(List<Tag> tags) { this.tags = tags; }
 }
