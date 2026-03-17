@@ -61,7 +61,7 @@ public class DataRepository {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Si ça marche, le repo rafraîchit la liste tout seul !
+                    // On rafraîchit la liste
                     fetchAllAuthors();
                 }
             }
@@ -76,10 +76,8 @@ public class DataRepository {
             @Override
             public void onResponse(Call<Author> call, Response<Author> response) {
                 if (response.isSuccessful()) {
-                    // Idem, on rafraîchit la liste
                     fetchAllAuthors();
                 }else {
-                    // LE SERVEUR REFUSE : On affiche l'erreur en rouge dans Android Studio
                     Log.e("API_BUG", "Le serveur a refusé ! Code d'erreur : " + response.code());
                 }
             }

@@ -30,7 +30,7 @@ public class AuthorSharedViewModel extends ViewModel {
     }
 
     public void deleteAuthor(int id) {
-        // Le ViewModel donne l'ordre, le repo gère le reste
+        // Le ViewModel donne l'ordre, le repo gere le reste
         repository.deleteAuthor(id);
     }
 

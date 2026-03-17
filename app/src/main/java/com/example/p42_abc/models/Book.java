@@ -31,8 +31,6 @@ public class Book {
     public Integer getAuthorId() { return authorId; }
     public void setAuthorId(Integer authorId) { this.authorId = authorId; }
 
-
-    // Et remplace les méthodes en bas :
     public List<Tag> getTags() { return tags; }
     public void setTags(List<Tag> tags) { this.tags = tags; }
 }
