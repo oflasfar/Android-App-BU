@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -17,19 +19,17 @@ import com.example.p42_abc.R;
 import com.example.p42_abc.author.model.Author;
 import com.example.p42_abc.author.viewModel.AuthorSharedViewModel;
 import com.example.p42_abc.models.Book;
-import com.example.p42_abc.models.Tag;
 import com.example.p42_abc.viewModels.BookViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class AddBookFragment extends Fragment {
 
     private BookViewModel bookViewModel;
     private AuthorSharedViewModel authorSharedViewModel;
+    private Integer selectedAuthorId = null;
 
     @Nullable
     @Override
@@ -45,43 +45,49 @@ public class AddBookFragment extends Fragment {
         this.authorSharedViewModel = new ViewModelProvider(requireActivity()).get(AuthorSharedViewModel.class);
 
         TextInputEditText titleEdit = view.findViewById(R.id.edit_text_title);
-        TextInputEditText descEdit = view.findViewById(R.id.edit_text_description);
-        TextInputEditText tagsEdit = view.findViewById(R.id.edit_text_tags);
+        TextInputEditText yearEdit = view.findViewById(R.id.edit_text_year);
         Button saveButton = view.findViewById(R.id.button_save_book);
+        AutoCompleteTextView authorAutoComplete = view.findViewById(R.id.auto_complete_txt_author);
+
+        authorSharedViewModel.getAuthors().observe(getViewLifecycleOwner(), authors -> {
+            if (authors != null && !authors.isEmpty()) {
+                List<String> authorNames = new ArrayList<>();
+                for (Author a : authors) {
+                    authorNames.add(a.getName());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, authorNames);
+                authorAutoComplete.setAdapter(adapter);
+
+                authorAutoComplete.setOnItemClickListener((parent, view1, position, id) -> {
+                    selectedAuthorId = authors.get(position).getId();
+                });
+            }
+        });
 
         saveButton.setOnClickListener(v ->{
-            String title = titleEdit.getText() != null ? titleEdit.getText().toString() : "";
-            String desc = descEdit.getText() != null ? descEdit.getText().toString() : "";
-            String tagsString = tagsEdit.getText() != null ? tagsEdit.getText().toString() : "";
+            String title = titleEdit.getText() != null ? titleEdit.getText().toString().trim() : "";
+            String yearStr = yearEdit.getText() != null ? yearEdit.getText().toString().trim() : "";
 
-            // forcer à remplir tout les champs
-            if(title.isEmpty() || desc.isEmpty() || tagsString.isEmpty()){
-                Toast.makeText(requireContext(), "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+            if(title.isEmpty() || selectedAuthorId == null){
+                Toast.makeText(requireContext(), "Veuillez remplir le titre et sélectionner un auteur", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Author currentAuthor = authorSharedViewModel.getSelected().getValue();
-
-            if (currentAuthor == null || currentAuthor.getId() <= 0) {
-                Toast.makeText(requireContext(), "Erreur : Auteur introuvable", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            List<String> stringTags = Arrays.asList(tagsString.split("\\s*,\\s*"));
-            List<Tag> tags = new ArrayList<>();
-
-            for (String tagName : stringTags) {
-                Tag newTag = new Tag();
-                newTag.setName(tagName.trim()); // trim() est super pour enlever les espaces inutiles que l alexis aurait tapés
-                tags.add(newTag);
+            Integer pubYear = null;
+            if (!yearStr.isEmpty()) {
+                try {
+                    pubYear = Integer.parseInt(yearStr);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(requireContext(), "L'année doit être un nombre valide", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
 
             Book newBook = new Book();
             newBook.setTitle(title);
-            newBook.setDescription(desc);
-            newBook.setTags(tags);
+            newBook.setPublicationYear(pubYear);
 
-            bookViewModel.addBook(currentAuthor.getId(), newBook);
+            bookViewModel.addBook(selectedAuthorId, newBook);
 
             Navigation.findNavController(view).popBackStack();
         });
