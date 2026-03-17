@@ -23,7 +23,7 @@ public class DataRepository {
     private final MutableLiveData<List<Author>> allAuthorsLiveData = new MutableLiveData<>();
     private DataRepository() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
+                .baseUrl("http://192.168.1.79:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -61,7 +61,7 @@ public class DataRepository {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Si ça marche, le repo rafraîchit la liste tout seul !
+                    // On rafraîchit la liste
                     fetchAllAuthors();
                 }
             }
@@ -76,10 +76,8 @@ public class DataRepository {
             @Override
             public void onResponse(Call<Author> call, Response<Author> response) {
                 if (response.isSuccessful()) {
-                    // Idem, on rafraîchit la liste
                     fetchAllAuthors();
                 }else {
-                    // LE SERVEUR REFUSE : On affiche l'erreur en rouge dans Android Studio
                     Log.e("API_BUG", "Le serveur a refusé ! Code d'erreur : " + response.code());
                 }
             }
@@ -116,7 +114,6 @@ public class DataRepository {
         });
     }
 
-    /// //////////////////////////////////////////////
     private final MutableLiveData<List<Book>> allBooksLiveData = new MutableLiveData<>();
 
     public LiveData<List<Book>> getAllBooksLiveData() { return allBooksLiveData; }
@@ -146,11 +143,18 @@ public class DataRepository {
     }
 
     public void createBook(int authorId, Book book) {
+
+        java.util.HashMap<String, Object> apiBody = new java.util.HashMap<>();
+        apiBody.put("title", book.getTitle());
+
+        if (book.getPublicationYear() != null) {
+            apiBody.put("publication_year", book.getPublicationYear());
+        }
         apiService.createBook(authorId, book).enqueue(new Callback<Book>() {
             @Override
             public void onResponse(retrofit2.Call<Book> call, retrofit2.Response<Book> response) {
                 if (response.isSuccessful()) {
-                    fetchAllBooks(); // On rafraîchit la liste si ça a marche
+                    fetchAllBooks();
                 } else {
                     android.util.Log.e("API_BUG", "Erreur ajout livre : " + response.code());
                 }

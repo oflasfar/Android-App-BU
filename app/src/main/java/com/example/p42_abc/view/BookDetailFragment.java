@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.p42_abc.R;
 import com.example.p42_abc.viewModels.BookViewModel;
@@ -56,12 +57,12 @@ public class BookDetailFragment extends Fragment {
                 // bouton de suppression
                 deleteButton.setOnClickListener(v -> {
                     bookViewModel.deleteBook(book); // On supprime
-                    getParentFragmentManager().popBackStack(); // on retourne à la liste
+                    Navigation.findNavController(view).popBackStack(); // on retourne à la liste
                 });
             }
         });
         view.findViewById(R.id.button_back).setOnClickListener(v -> {
-            getParentFragmentManager().popBackStack();
+            Navigation.findNavController(view).popBackStack();
         });
     }
 }

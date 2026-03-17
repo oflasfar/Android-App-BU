@@ -1,5 +1,7 @@
 package com.example.p42_abc.models;
 
+import com.example.p42_abc.author.model.Author;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +14,8 @@ public class Book {
     private List<Tag> tags;
     private Integer publication_year;
     private Integer authorId;
+
+    private Author author;
 
     public Book() {} // Constructeur vide
 
@@ -31,8 +35,10 @@ public class Book {
     public Integer getAuthorId() { return authorId; }
     public void setAuthorId(Integer authorId) { this.authorId = authorId; }
 
-
-    // Et remplace les méthodes en bas :
     public List<Tag> getTags() { return tags; }
     public void setTags(List<Tag> tags) { this.tags = tags; }
+
+    public Author getAuthor() { return author; }
+
+    public void setAuthor(Author author) { this.author = author; }
 }

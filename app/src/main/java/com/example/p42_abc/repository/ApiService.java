@@ -27,7 +27,7 @@ public interface ApiService {
     Call<List<Book>> getBooksOfAuthor(@Path("author_id") int authorId);
 
     //Routes pour les livres
-    @GET("books")
+    @GET("books?include=author")
     Call<List<Book>> getAllBooks();
 
     @DELETE("books/{id}")
