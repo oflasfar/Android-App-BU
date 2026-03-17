@@ -12,11 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+
 import com.example.p42_abc.models.Book;
 import com.example.p42_abc.R;
 import com.example.p42_abc.author.model.Author;
 import com.example.p42_abc.author.viewModel.AuthorSharedViewModel;
-import com.example.p42_abc.view.AddBookFragment;
 
 public class AuthorDetailFragment extends Fragment {
 
@@ -36,10 +37,9 @@ public class AuthorDetailFragment extends Fragment {
         // On utilise bien requireActivity() pour récupérer le meme ViewModel que la liste
         AuthorSharedViewModel model = new ViewModelProvider(requireActivity()).get(AuthorSharedViewModel.class);
 
-        // On regarde ce qu'il y a dans "getSelected()"
         model.getSelected().observe(getViewLifecycleOwner(), author -> {
             if (author != null) {
-                // Dès qu'on trouve l'auteur, on met son nom dans le TextView
+                // des que on trouve l'auteur, on met son nom dans le TextView
                 textName.setText(author.getName());
             }
         });
@@ -53,9 +53,7 @@ public class AuthorDetailFragment extends Fragment {
                 model.deleteAuthor(currentAuthor.getId());
 
                 //On ferme le fragment de détail pour revenir à la liste
-                // C'est l'équivalent du bouton "Retour"
-
-                getParentFragmentManager().popBackStack();
+                Navigation.findNavController(view).popBackStack();
 
                 // Petit message pour confirmer à l'utilisateur
                 Toast.makeText(getContext(), "Auteur supprimé", Toast.LENGTH_SHORT).show();
@@ -67,7 +65,7 @@ public class AuthorDetailFragment extends Fragment {
 
         model.getAuthorBooks().observe(getViewLifecycleOwner(), books -> {
             if (books != null && !books.isEmpty()) {
-                // S'il a des livres, on crée un texte avec tous les titres
+                // Sil a des livres, on crée un texte avec tous les titres
                 StringBuilder liste = new StringBuilder("Livres de l'auteur :\n\n");
                 for (Book livre : books) {
                     liste.append("- ").append(livre.getTitle())
@@ -75,7 +73,7 @@ public class AuthorDetailFragment extends Fragment {
                 }
                 textBooksList.setText(liste.toString());
             } else {
-                // S'il n'en a pas
+                // S il n en a pas
                 textBooksList.setText("Cet auteur n'a aucun livre enregistré.");
             }
         });
@@ -83,8 +81,8 @@ public class AuthorDetailFragment extends Fragment {
 
         Button btnBack = view.findViewById(R.id.buttonBack);
         btnBack.setOnClickListener(v -> {
-            // Cette commande simule lappui sur la touche "Retour" du telephone c juste le depilementd e la île
-            requireActivity().getSupportFragmentManager().popBackStack();
+            // On utilise NavController pour depiler paps le putain de fragmentManager qui a casser tous mon code
+            Navigation.findNavController(view).popBackStack();
         });
     }
 }

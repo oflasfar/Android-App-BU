@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/authorListFragment">
+
+    <fragment
+        android:id="@+id/authorListFragment"
+        android:name="com.example.p42_abc.author.view.AuthorListFragment"
+        android:label="Authors"
+        tools:layout="@layout/fragment_author_list">
+        <action
+            android:id="@+id/action_authorListFragment_to_authorDetailFragment"
+            app:destination="@id/authorDetailFragment" />
+        <action
+            android:id="@+id/action_authorListFragment_to_addAuthorFragment"
+            app:destination="@id/addAuthorFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/authorDetailFragment"
+        android:name="com.example.p42_abc.author.view.AuthorDetailFragment"
+        android:label="Author Detail"
+        tools:layout="@layout/fragment_author_detail" />
+
+    <fragment
+        android:id="@+id/addAuthorFragment"
+        android:name="com.example.p42_abc.author.view.AddAuthorFragment"
+        android:label="Add Author"
+        tools:layout="@layout/fragment_add_author" />
+
+    <fragment
+        android:id="@+id/bookListFragment"
+        android:name="com.example.p42_abc.view.BookListFragment"
+        android:label="Books"
+        tools:layout="@layout/fragment_book_list">
+        <action
+            android:id="@+id/action_bookListFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment" />
+        <action
+            android:id="@+id/action_bookListFragment_to_addBookFragment"
+            app:destination="@id/addBookFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bookDetailFragment"
+        android:name="com.example.p42_abc.view.BookDetailFragment"
+        android:label="Book Detail"
+        tools:layout="@layout/fragment_book_detail" />
+
+    <fragment
+        android:id="@+id/addBookFragment"
+        android:name="com.example.p42_abc.view.AddBookFragment"
+        android:label="Add Book"
+        tools:layout="@layout/fragment_add_book" />
+
+</navigation>

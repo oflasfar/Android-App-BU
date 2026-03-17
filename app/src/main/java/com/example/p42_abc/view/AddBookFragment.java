@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.p42_abc.R;
 import com.example.p42_abc.author.model.Author;
@@ -82,7 +83,7 @@ public class AddBookFragment extends Fragment {
 
             bookViewModel.addBook(currentAuthor.getId(), newBook);
 
-            getParentFragmentManager().popBackStack();
+            Navigation.findNavController(view).popBackStack();
         });
     }
 }

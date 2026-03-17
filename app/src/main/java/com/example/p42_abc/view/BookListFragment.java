@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,9 +38,7 @@ public class BookListFragment extends Fragment {
 
         bookAdapter = new BookAdapter(clickedBook ->{
             bookViewModel.selectBook(clickedBook);
-            getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new BookDetailFragment())
-                    .addToBackStack(null) // bouton de retour du téléphone
-                    .commit();
+            Navigation.findNavController(view).navigate(R.id.action_bookListFragment_to_bookDetailFragment);
         });
         recyclerView.setAdapter(bookAdapter);
 
@@ -54,7 +53,7 @@ public class BookListFragment extends Fragment {
             }
         });
         view.findViewById(R.id.fab_add_book).setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddBookFragment()).addToBackStack(null).commit();
+            Navigation.findNavController(view).navigate(R.id.action_bookListFragment_to_addBookFragment);
         });
     }
 }

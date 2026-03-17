@@ -7,9 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import com.example.p42_abc.author.view.AuthorListFragment;
 import com.example.p42_abc.view.BookListFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,11 +29,10 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        ///
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new BookListFragment())
-                    .commit();
-        }
+        NavHostFragment navHost =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        NavController navController = navHost.getNavController();
+        BottomNavigationView bnv = findViewById(R.id.bottom_navigation_view);
+        NavigationUI.setupWithNavController(bnv, navController);
     }
 }
