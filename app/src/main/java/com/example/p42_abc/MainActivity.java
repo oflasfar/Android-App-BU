@@ -17,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +30,20 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        NavHostFragment navHost =
-                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        NavController navController = navHost.getNavController();
+        NavHostFragment navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        navController = navHost.getNavController();
+
+        NavigationUI.setupActionBarWithNavController(this, navController);
+
         BottomNavigationView bnv = findViewById(R.id.bottom_navigation_view);
         NavigationUI.setupWithNavController(bnv, navController);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        if (navController != null) {
+            return navController.navigateUp() || super.onSupportNavigateUp();
+        }
+        return super.onSupportNavigateUp();
     }
 }
