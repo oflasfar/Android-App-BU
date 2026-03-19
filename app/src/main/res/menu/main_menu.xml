@@ -2,8 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/authorListFragment"
+        android:icon="@drawable/baseline_person_24"
         android:title="Authors"/>
     <item
         android:id="@+id/bookListFragment"
+        android:icon="@drawable/baseline_menu_book_24"
         android:title="Books"/>
 </menu>
