@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.example.p42_abc.R;
 import com.example.p42_abc.author.model.Author;
 import com.example.p42_abc.author.viewModel.AuthorSharedViewModel;
 import com.example.p42_abc.models.Book;
+import com.example.p42_abc.models.Tag;
 import com.example.p42_abc.viewModels.BookViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -48,6 +50,22 @@ public class AddBookFragment extends Fragment {
         TextInputEditText yearEdit = view.findViewById(R.id.edit_text_year);
         Button saveButton = view.findViewById(R.id.button_save_book);
         AutoCompleteTextView authorAutoComplete = view.findViewById(R.id.auto_complete_txt_author);
+        ///
+        MultiAutoCompleteTextView tagsEdit = view.findViewById(R.id.edit_text_tags);
+
+        bookViewModel.loadTags();
+        bookViewModel.getTags().observe(getViewLifecycleOwner(), tags -> {
+            if (tags != null && !tags.isEmpty()) {
+                List<String> tagNames = new ArrayList<>();
+                for (Tag t : tags) {
+                    tagNames.add(t.getName());
+                }
+
+                ArrayAdapter<String> tagsAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, tagNames);
+                tagsEdit.setAdapter(tagsAdapter);
+                tagsEdit.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+            }
+        });
 
         authorSharedViewModel.getAuthors().observe(getViewLifecycleOwner(), authors -> {
             if (authors != null && !authors.isEmpty()) {
@@ -65,6 +83,8 @@ public class AddBookFragment extends Fragment {
         });
 
         saveButton.setOnClickListener(v ->{
+
+            String tagsStr = tagsEdit.getText() != null ? tagsEdit.getText().toString().trim() : "";
             String title = titleEdit.getText() != null ? titleEdit.getText().toString().trim() : "";
             String yearStr = yearEdit.getText() != null ? yearEdit.getText().toString().trim() : "";
 
@@ -86,7 +106,19 @@ public class AddBookFragment extends Fragment {
             Book newBook = new Book();
             newBook.setTitle(title);
             newBook.setPublicationYear(pubYear);
-
+            if (!tagsStr.isEmpty()) {
+                String[] tagsArray = tagsStr.split(",");
+                List<Tag> bookTags = new ArrayList<>();
+                for (String t : tagsArray) {
+                    String tagName = t.trim();
+                    if (!tagName.isEmpty()) {
+                        Tag tag = new Tag();
+                        tag.setName(tagName);
+                        bookTags.add(tag);
+                    }
+                }
+                newBook.setTags(bookTags);
+            }
             bookViewModel.addBook(selectedAuthorId, newBook);
 
             Navigation.findNavController(view).popBackStack();

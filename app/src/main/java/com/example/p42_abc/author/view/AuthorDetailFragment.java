@@ -74,7 +74,7 @@ public class AuthorDetailFragment extends Fragment {
             if (currentAuthor != null) {
 
                 model.deleteAuthor(currentAuthor.getId());
-
+                bookViewModel.refreshBooks();
                 Navigation.findNavController(view).popBackStack();
 
                 Toast.makeText(getContext(), "Auteur supprimé", Toast.LENGTH_SHORT).show();

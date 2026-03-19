@@ -4,6 +4,8 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import com.example.p42_abc.author.model.Author;
 import com.example.p42_abc.models.Book;
+import com.example.p42_abc.models.Tag;
+
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -111,12 +113,43 @@ public class DataRepository {
         });
     }
 
+
+    public void updateBookTags(int bookId, List<Tag> tags, MutableLiveData<List<Book>> targetLiveData) {
+        java.util.HashMap<String, Object> updateBody = new java.util.HashMap<>();
+        List<String> tagsList = new ArrayList<>();
+
+        for (int i = 0; i < tags.size(); i++) {
+            tagsList.add(tags.get(i).getName());
+        }
+
+        updateBody.put("tags", tagsList);
+
+        apiService.updateBook(bookId, updateBody).enqueue(new Callback<Book>() {
+            @Override
+            public void onResponse(Call<Book> call, Response<Book> response) {
+                fetchAllBooks(targetLiveData);
+            }
+
+            @Override
+            public void onFailure(Call<Book> call, Throwable t) {
+                fetchAllBooks(targetLiveData);
+            }
+        });
+    }
+
+
     public void createBook(int authorId, Book book, MutableLiveData<List<Book>> targetLiveData) {
         apiService.createBook(authorId, book).enqueue(new Callback<Book>() {
             @Override
             public void onResponse(Call<Book> call, Response<Book> response) {
                 if (response.isSuccessful()) {
-                    fetchAllBooks(targetLiveData);
+                    int newBookId = response.body().getId();
+
+                    if (book.getTags() != null && !book.getTags().isEmpty()) {
+                        updateBookTags(newBookId, book.getTags(), targetLiveData);
+                    } else {
+                        fetchAllBooks(targetLiveData);
+                    }
                 } else {
                     Log.e("API_BUG", "Erreur ajout livre : " + response.code());
                 }
@@ -127,4 +160,19 @@ public class DataRepository {
             }
         });
     }
+
+    public void fetchAllTags(MutableLiveData<List<Tag>> targetLiveData) {
+        apiService.getAllTags().enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    targetLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Tag>> call, Throwable t) {}
+        });
+    }
+
 }

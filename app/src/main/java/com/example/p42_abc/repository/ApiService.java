@@ -3,13 +3,16 @@ package com.example.p42_abc.repository;
 
 import com.example.p42_abc.author.model.Author;
 import com.example.p42_abc.models.Book;
+import com.example.p42_abc.models.Tag;
 
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -35,4 +38,10 @@ public interface ApiService {
 
     @POST("authors/{author_id}/books")
     Call<Book> createBook(@Path("author_id") int authorId, @Body Book book);
+
+    @PATCH("books/{id}")
+    Call<Book> updateBook(@Path("id") int bookId, @Body HashMap<String, Object> body);
+
+    @GET("tags")
+    Call<List<Tag>> getAllTags();
 }
