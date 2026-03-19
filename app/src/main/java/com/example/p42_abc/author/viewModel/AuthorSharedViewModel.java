@@ -12,39 +12,42 @@ import java.util.List;
 public class AuthorSharedViewModel extends ViewModel {
 
     private final DataRepository repository = DataRepository.getInstance();
+
+    private final MutableLiveData<List<Author>> allAuthors = new MutableLiveData<>();
+    private final MutableLiveData<List<Book>> authorBooks = new MutableLiveData<>();
     private final MutableLiveData<Author> selected = new MutableLiveData<>();
 
-    public LiveData<List<Author>> getAuthors() {
-        // On dit au repo de lancer la requête
-        repository.fetchAllAuthors();
-        // On renvoie directement le LiveData du repo
-        return repository.getAllAuthorsLiveData();
+    public AuthorSharedViewModel() {
+        repository.fetchAllAuthors(allAuthors);
     }
 
-    public LiveData<Author> getSelected() { return selected; }
+    public LiveData<List<Author>> getAuthors() {
+        return allAuthors;
+    }
+
+    public LiveData<Author> getSelected() {
+        return selected;
+    }
+
     public void select(Author author) {
         selected.setValue(author);
         if (author != null) {
-            repository.fetchBooksForAuthor(author.getId());
+            repository.fetchBooksForAuthor(author.getId(), authorBooks);
         }
     }
 
-    public void deleteAuthor(int id) {
-        // Le ViewModel donne l'ordre, le repo gere le reste
-        repository.deleteAuthor(id);
+    public LiveData<List<Book>> getAuthorBooks() {
+        return authorBooks;
     }
 
-    // On demande maintenant le prénom et le nom
+    public void deleteAuthor(int id) {
+        repository.deleteAuthor(id, allAuthors);
+    }
+
     public void addAuthor(String firstName, String lastName) {
         Author newAuthor = new Author();
         newAuthor.setFirstname(firstName);
         newAuthor.setLastname(lastName);
-        repository.createAuthor(newAuthor);
+        repository.createAuthor(newAuthor, allAuthors);
     }
-
-    public LiveData<List<Book>> getAuthorBooks() {
-        return repository.getAuthorBooksLiveData();
-    }
-
-
 }

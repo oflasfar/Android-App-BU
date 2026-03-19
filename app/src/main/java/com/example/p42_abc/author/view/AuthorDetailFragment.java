@@ -44,7 +44,6 @@ public class AuthorDetailFragment extends Fragment {
         AuthorSharedViewModel model = new ViewModelProvider(requireActivity()).get(AuthorSharedViewModel.class);
         BookViewModel bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
 
-
         model.getSelected().observe(getViewLifecycleOwner(), author -> {
             if (author != null) {
                 // des que on trouve l'auteur, on met son nom dans le TextView
