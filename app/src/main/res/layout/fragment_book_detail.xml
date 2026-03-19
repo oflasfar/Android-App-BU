@@ -18,9 +18,33 @@
             android:layout_marginTop="16dp"
             android:textSize="24sp"
             android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Titre du livre" />
+
+        <TextView
+            android:id="@+id/text_view_detail_author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_detail_title"
+            tools:text="Auteur : Nom de l'auteur" />
+
+        <TextView
+            android:id="@+id/text_view_detail_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_detail_author"
+            tools:text="Publié en : 2023" />
 
         <TextView
             android:id="@+id/text_view_tags_label"
@@ -29,7 +53,7 @@
             android:layout_marginTop="24dp"
             android:text="Tags :"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_view_detail_title" />
+            app:layout_constraintTop_toBottomOf="@id/text_view_detail_date" />
 
         <TextView
             android:id="@+id/text_view_detail_tags"
@@ -41,7 +65,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_view_tags_label"
-            tools:text="tags , tags, tags" />
+            tools:text="tag1, tag2, tag3" />
 
         <Button
             android:id="@+id/button_delete_book"
