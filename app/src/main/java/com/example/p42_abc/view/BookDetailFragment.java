@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p42_abc.R;
 import com.example.p42_abc.adapters.CommentAdapter;
+import com.example.p42_abc.models.Book;
 import com.example.p42_abc.viewModels.BookViewModel;
 
 public class BookDetailFragment extends Fragment {
@@ -87,6 +88,7 @@ public class BookDetailFragment extends Fragment {
                 // Bouton de suppression
                 deleteButton.setOnClickListener(v -> {
                     bookViewModel.deleteBook(book);
+                    bookViewModel.refreshBooks();
                     Navigation.findNavController(view).popBackStack();
                 });
             }

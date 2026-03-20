@@ -14,7 +14,6 @@ public class Book {
     private List<Tag> tags;
     private Integer publication_year;
     private Integer authorId;
-
     private Author author;
 
     public Book() {} // Constructeur vide

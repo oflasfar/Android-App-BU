@@ -54,16 +54,45 @@ public class AuthorDetailFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_author_books);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // On cre l'adapter en lui donnant l action de clic
+        // On crée l'adapter en lui donnant l'action de clic
         bookAdapter = new BookAdapter(clickedBook -> {
-            bookViewModel.selectBook(clickedBook); // On prévient le ViewModel qu'on regarde CE livre
+
+            Book completeBook = clickedBook;
+
+            // On cherche ce livre dans la liste complète
+            if (bookViewModel.getBooks().getValue() != null) {
+                for (Book bookInList : bookViewModel.getBooks().getValue()) {
+                    if (bookInList.getId() == clickedBook.getId()) {
+                        completeBook = bookInList;
+                        break;
+                    }
+                }
+            }
+
+            Author currentAuthor = model.getSelected().getValue();
+            if (currentAuthor != null && completeBook.getAuthor() == null) {
+                completeBook.setAuthor(currentAuthor);
+            }
+
+            bookViewModel.selectBook(completeBook);
             Navigation.findNavController(view).navigate(R.id.bookDetailFragment);
         });
         recyclerView.setAdapter(bookAdapter);
 
-        //On onserve le livedata des livres de l auteur
+        //On observe le livedata des livres de l auteur
         model.getAuthorBooks().observe(getViewLifecycleOwner(), books -> {
             if (books != null) {
+                //On récupère l'auteur actuellement affiché sur l'écran
+                Author currentAuthor = model.getSelected().getValue();
+
+                //On fait une boucle pour distribuer cet auteur à chaque livre de la liste
+                if (currentAuthor != null) {
+                    for (Book book : books) {
+                        if (book.getAuthor() == null) {
+                            book.setAuthor(currentAuthor);
+                        }
+                    }
+                }
                 bookAdapter.setBooks(books);
             }
         });
