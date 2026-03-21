@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">P42_ABC</string>
+    <string name="ajouter_un_nouvel_auteur">Ajouter un nouvel auteur</string>
+    <string name="pr_nom_de_l_auteur_ex_victor">Prénom de l\'auteur (ex: Victor)</string>
+    <string name="nom_de_l_auteur_ex_hugo">Nom de l\'auteur (ex: Hugo)</string>
+    <string name="enregistrer">Enregistrer</string>
+    <string name="ajouter_un_livre">Ajouter un Livre</string>
+    <string name="titre_du_livre">Titre du livre</string>
+    <string name="s_lectionner_l_auteur">Sélectionner l\'auteur</string>
+    <string name="ann_e_de_publication_optionnel">Année de publication (optionnel)</string>
+    <string name="s_lectionner_des_tags">Sélectionner des tags</string>
+    <string name="enregistrer_le_livre">Enregistrer le livre</string>
+    <string name="nom_de_l_auteur">Nom de l\'auteur</string>
+    <string name="supprimer">Supprimer</string>
+    <string name="ajouter_un_auteur">Ajouter un auteur</string>
+    <string name="tags">Tags :</string>
+    <string name="supprimer_ce_livre">Supprimer ce livre</string>
+    <string name="commentaires">Commentaires :</string>
 </resources>

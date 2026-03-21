@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:text="Nom de l'auteur"
+        android:text="@string/nom_de_l_auteur"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -20,7 +20,7 @@
         android:id="@+id/buttonDeleteAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Supprimer"
+        android:text="@string/supprimer"
         android:backgroundTint="#D32F2F"
         android:textColor="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"

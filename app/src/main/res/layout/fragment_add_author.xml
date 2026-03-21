@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ajouter un nouvel auteur"
+        android:text="@string/ajouter_un_nouvel_auteur"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -17,19 +17,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Prénom de l'auteur (ex: Victor)" />
+        android:hint="@string/pr_nom_de_l_auteur_ex_victor" />
 
     <EditText
         android:id="@+id/editTextAuthorLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="Nom de l'auteur (ex: Hugo)" />
+        android:hint="@string/nom_de_l_auteur_ex_hugo" />
 
     <Button
         android:id="@+id/buttonSaveAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Enregistrer" />
+        android:text="@string/enregistrer" />
 </LinearLayout>
