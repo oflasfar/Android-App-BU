@@ -51,9 +51,15 @@ public class BookListFragment extends Fragment {
             if (books != null) {
                 bookAdapter.setBooks(books);
             }
+            bookAdapter.notifyDataSetChanged();
         });
         view.findViewById(R.id.fab_add_book).setOnClickListener(v -> {
             Navigation.findNavController(view).navigate(R.id.action_bookListFragment_to_addBookFragment);
         });
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        bookViewModel.refreshBooks();
     }
 }
