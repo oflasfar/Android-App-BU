@@ -16,4 +16,6 @@
     <string name="tags">Tags :</string>
     <string name="supprimer_ce_livre">Supprimer ce livre</string>
     <string name="commentaires">Commentaires :</string>
+    <string name="rechercher_un_livre">Rechercher un livre...</string>
+    <string name="rechercher_un_auteur">Rechercher un auteur...</string>
 </resources>
