@@ -57,6 +57,8 @@ public class BookListFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.action_bookListFragment_to_addBookFragment);
         });
     }
+
+    //il faut demander au prof
     @Override
     public void onResume() {
         super.onResume();
