@@ -1,0 +1,135 @@
+package com.example.p42_abc.features.author.view;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.p42_abc.features.book.adapter.BookAdapter;
+import com.example.p42_abc.features.book.model.Book;
+import com.example.p42_abc.R;
+import com.example.p42_abc.features.author.model.Author;
+import com.example.p42_abc.features.author.viewmodel.AuthorViewModel;
+import com.example.p42_abc.features.book.viewmodel.BookViewModel;
+
+public class AuthorDetailFragment extends Fragment {
+
+    //Adapter pour le recycler View
+    private BookAdapter bookAdapter;
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_author_detail, container, false);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        TextView textName = view.findViewById(R.id.textViewDetailAuthorName);
+        Button btnDelete = view.findViewById(R.id.buttonDeleteAuthor);
+
+        // On utilise bien requireActivity() pour récupérer le meme ViewModel que la liste
+        AuthorViewModel model = new ViewModelProvider(requireActivity()).get(AuthorViewModel.class);
+        BookViewModel bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
+
+        // Rafraîchir les livres de l'auteur dès que la vue est créée ou qu'on revient dessus
+        Author authorToRefresh = model.getSelected().getValue();
+        if (authorToRefresh != null) {
+            model.refreshBookOfAuthor(authorToRefresh.getId());
+        }
+
+        model.getSelected().observe(getViewLifecycleOwner(), author -> {
+            if (author != null) {
+                // des que on trouve l'auteur, on met son nom dans le TextView
+                textName.setText(author.getName());
+            }
+        });
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_author_books);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // On crée l'adapter en lui donnant l'action de clic
+        bookAdapter = new BookAdapter(clickedBook -> {
+
+            Book completeBook = clickedBook;
+
+            // On cherche ce livre dans la liste complète
+            if (bookViewModel.getBooks().getValue() != null) {
+                for (Book bookInList : bookViewModel.getBooks().getValue()) {
+                    if (bookInList.getId().equals(clickedBook.getId())) {
+                        completeBook = bookInList;
+                        break;
+                    }
+                }
+            }
+
+            Author currentAuthor = model.getSelected().getValue();
+            if (currentAuthor != null && completeBook.getAuthor() == null) {
+                completeBook.setAuthor(currentAuthor);
+            }
+
+            bookViewModel.selectBook(completeBook);
+            Navigation.findNavController(view).navigate(R.id.bookDetailFragment);
+        });
+        recyclerView.setAdapter(bookAdapter);
+
+        //On observe le livedata des livres de l auteur
+        model.getAuthorBooks().observe(getViewLifecycleOwner(), books -> {
+
+            if (books != null) {
+                //On récupère l'auteur actuellement affiché sur l'écran
+                Author currentAuthor = model.getSelected().getValue();
+
+                //On fait une boucle pour distribuer cet auteur à chaque livre de la liste
+                if (currentAuthor != null) {
+                    for (Book book : books) {
+                        if (book.getAuthor() == null) {
+                            book.setAuthor(currentAuthor);
+                        }
+                    }
+                }
+                bookAdapter.setBooks(books);
+            }
+        });
+
+        btnDelete.setOnClickListener(v -> {
+            //On recupère l'auteur actuellement sélectionné dans le ViewModel
+            Author currentAuthor = model.getSelected().getValue();
+            if (currentAuthor != null) {
+
+                model.deleteAuthor(currentAuthor.getId());
+                bookViewModel.refreshBooks();
+                Navigation.findNavController(view).popBackStack();
+
+                Toast.makeText(getContext(), "Auteur supprimé", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        // Forcer le rafraîchissement au retour du fragment DetailBook
+//        AuthorSharedViewModel model = new ViewModelProvider(requireActivity()).get(AuthorSharedViewModel.class);
+//        Author authorToRefresh = model.getSelected().getValue();
+//        if (authorToRefresh != null) {
+//            model.refreshBookOfAuthor(authorToRefresh.getId());
+//        }
+//    }
+}
