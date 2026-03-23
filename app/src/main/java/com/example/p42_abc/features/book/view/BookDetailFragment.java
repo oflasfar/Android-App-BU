@@ -46,14 +46,10 @@ public class BookDetailFragment extends Fragment {
         TextView dateText = view.findViewById(R.id.text_view_detail_date);
         TextView authorText = view.findViewById(R.id.text_view_detail_author);
 
-        TextView ratingText = view.findViewById(R.id.text_view_detail_rating);
 
         Button deleteButton = view.findViewById(R.id.button_delete_book);
         Button editButton = view.findViewById(R.id.button_edit_book);
-        RecyclerView recyclerComments = view.findViewById(R.id.recycler_view_comments);
-        recyclerComments.setLayoutManager(new LinearLayoutManager(requireContext()));
         CommentAdapter commentAdapter = new CommentAdapter();
-        recyclerComments.setAdapter(commentAdapter);
 
         bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
 
@@ -130,12 +126,6 @@ public class BookDetailFragment extends Fragment {
             }
         });
 
-        bookViewModel.getCurrentAverage().observe(getViewLifecycleOwner(), average -> {
-            if (average != null && average > 0) {
-                ratingText.setText(String.format("Note : %.1f / 5", average));
-            } else {
-                ratingText.setText("Note : Aucune note");
-            }
-        });
+
     }
 }
