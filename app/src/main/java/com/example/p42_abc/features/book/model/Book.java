@@ -1,4 +1,6 @@
-package com.example.p42_abc.models;
+package com.example.p42_abc.features.book.model;
+
+import com.example.p42_abc.features.author.model.Author;
 
 import java.util.List;
 

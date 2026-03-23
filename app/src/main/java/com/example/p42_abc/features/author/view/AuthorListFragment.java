@@ -1,4 +1,4 @@
-package com.example.p42_abc.view;
+package com.example.p42_abc.features.author.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.models.Author;
+import com.example.p42_abc.features.author.model.Author;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 // Assure-toi que ces imports correspondent bien à tes dossiers (appuie sur Alt+Entrée si c'est rouge)
-import com.example.p42_abc.adapters.AuthorAdapter;
-import com.example.p42_abc.viewModels.AuthorSharedViewModel;
+import com.example.p42_abc.features.author.adapter.AuthorAdapter;
+import com.example.p42_abc.features.author.viewmodel.AuthorViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ public class AuthorListFragment extends Fragment {
         recyclerView.setAdapter(authorAdapter);
 
         // On utilise requireActivity() pour partager les données avec les autres écrans
-        AuthorSharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(AuthorSharedViewModel.class);
+        AuthorViewModel viewModel = new ViewModelProvider(requireActivity()).get(AuthorViewModel.class);
 
         // On observe la liste des auteurs pour remplir l'écran
         viewModel.getAuthors().observe(getViewLifecycleOwner(), authors -> {

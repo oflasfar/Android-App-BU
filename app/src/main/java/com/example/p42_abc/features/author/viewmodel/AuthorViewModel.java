@@ -1,15 +1,15 @@
-package com.example.p42_abc.viewModels;
+package com.example.p42_abc.features.author.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.p42_abc.models.Author;
+import com.example.p42_abc.features.author.model.Author;
 import com.example.p42_abc.repository.DataRepository;
-import com.example.p42_abc.models.Book;
+import com.example.p42_abc.features.book.model.Book;
 import java.util.List;
 
-public class AuthorSharedViewModel extends ViewModel {
+public class AuthorViewModel extends ViewModel {
 
     private final DataRepository repository = DataRepository.getInstance();
 
@@ -17,7 +17,7 @@ public class AuthorSharedViewModel extends ViewModel {
     private final MutableLiveData<List<Book>> authorBooks = new MutableLiveData<>();
     private final MutableLiveData<Author> selected = new MutableLiveData<>();
 
-    public AuthorSharedViewModel() {
+    public AuthorViewModel() {
         repository.fetchAllAuthors(allAuthors);
     }
 

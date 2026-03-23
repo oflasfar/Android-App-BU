@@ -1,4 +1,4 @@
-package com.example.p42_abc.view;
+package com.example.p42_abc.features.book.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,13 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.adapters.CommentAdapter;
-import com.example.p42_abc.viewModels.AuthorSharedViewModel;
-import com.example.p42_abc.viewModels.BookViewModel;
+import com.example.p42_abc.features.book.adapter.CommentAdapter;
+import com.example.p42_abc.features.author.viewmodel.AuthorViewModel;
+import com.example.p42_abc.features.book.viewmodel.BookViewModel;
 
 public class BookDetailFragment extends Fragment {
     private BookViewModel bookViewModel;
-    private AuthorSharedViewModel authorViewModel;
+    private AuthorViewModel authorViewModel;
 
 
     @Nullable

@@ -1,4 +1,4 @@
-package com.example.p42_abc.view;
+package com.example.p42_abc.features.book.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,11 +19,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.models.Author;
-import com.example.p42_abc.viewModels.AuthorSharedViewModel;
-import com.example.p42_abc.models.Book;
-import com.example.p42_abc.models.Tag;
-import com.example.p42_abc.viewModels.BookViewModel;
+import com.example.p42_abc.features.author.model.Author;
+import com.example.p42_abc.features.author.viewmodel.AuthorViewModel;
+import com.example.p42_abc.features.book.model.Book;
+import com.example.p42_abc.features.book.model.Tag;
+import com.example.p42_abc.features.book.viewmodel.BookViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
@@ -34,7 +34,7 @@ import java.util.List;
 public class AddBookFragment extends Fragment {
 
     private BookViewModel bookViewModel;
-    private AuthorSharedViewModel authorSharedViewModel;
+    private AuthorViewModel authorViewModel;
     private Integer selectedAuthorId = null;
 
     private int indexImageActuelle = 0;
@@ -52,7 +52,7 @@ public class AddBookFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         this.bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
-        this.authorSharedViewModel = new ViewModelProvider(requireActivity()).get(AuthorSharedViewModel.class);
+        this.authorViewModel = new ViewModelProvider(requireActivity()).get(AuthorViewModel.class);
 
         TextInputEditText titleEdit = view.findViewById(R.id.edit_text_title);
         TextInputEditText yearEdit = view.findViewById(R.id.edit_text_year);
@@ -82,7 +82,7 @@ public class AddBookFragment extends Fragment {
             }
         });
 
-        authorSharedViewModel.getAuthors().observe(getViewLifecycleOwner(), authors -> {
+        authorViewModel.getAuthors().observe(getViewLifecycleOwner(), authors -> {
             if (authors != null && !authors.isEmpty()) {
                 List<String> authorNames = new ArrayList<>();
                 for (Author a : authors) {

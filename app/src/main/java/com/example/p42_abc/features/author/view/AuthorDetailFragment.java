@@ -1,4 +1,4 @@
-package com.example.p42_abc.view;
+package com.example.p42_abc.features.author.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -17,12 +17,12 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.p42_abc.adapters.BookAdapter;
-import com.example.p42_abc.models.Book;
+import com.example.p42_abc.features.book.adapter.BookAdapter;
+import com.example.p42_abc.features.book.model.Book;
 import com.example.p42_abc.R;
-import com.example.p42_abc.models.Author;
-import com.example.p42_abc.viewModels.AuthorSharedViewModel;
-import com.example.p42_abc.viewModels.BookViewModel;
+import com.example.p42_abc.features.author.model.Author;
+import com.example.p42_abc.features.author.viewmodel.AuthorViewModel;
+import com.example.p42_abc.features.book.viewmodel.BookViewModel;
 
 public class AuthorDetailFragment extends Fragment {
 
@@ -45,7 +45,7 @@ public class AuthorDetailFragment extends Fragment {
         Button btnDelete = view.findViewById(R.id.buttonDeleteAuthor);
 
         // On utilise bien requireActivity() pour récupérer le meme ViewModel que la liste
-        AuthorSharedViewModel model = new ViewModelProvider(requireActivity()).get(AuthorSharedViewModel.class);
+        AuthorViewModel model = new ViewModelProvider(requireActivity()).get(AuthorViewModel.class);
         BookViewModel bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
 
         // Rafraîchir les livres de l'auteur dès que la vue est créée ou qu'on revient dessus

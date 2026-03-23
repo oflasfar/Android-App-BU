@@ -1,12 +1,11 @@
-package com.example.p42_abc.viewModels;
+package com.example.p42_abc.features.book.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import com.example.p42_abc.models.Book;
-import com.example.p42_abc.models.Comment;
-import com.example.p42_abc.models.Rating;
-import com.example.p42_abc.models.Tag;
+import com.example.p42_abc.features.book.model.Book;
+import com.example.p42_abc.features.book.model.Comment;
+import com.example.p42_abc.features.book.model.Tag;
 import com.example.p42_abc.repository.DataRepository;
 import java.util.List;
 

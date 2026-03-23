@@ -1,10 +1,10 @@
-package com.example.p42_abc.repository;
+package com.example.p42_abc.network;
 
 
-import com.example.p42_abc.models.Author;
-import com.example.p42_abc.models.Book;
-import com.example.p42_abc.models.Comment;
-import com.example.p42_abc.models.Tag;
+import com.example.p42_abc.features.author.model.Author;
+import com.example.p42_abc.features.book.model.Book;
+import com.example.p42_abc.features.book.model.Comment;
+import com.example.p42_abc.features.book.model.Tag;
 
 import java.util.HashMap;
 import java.util.List;

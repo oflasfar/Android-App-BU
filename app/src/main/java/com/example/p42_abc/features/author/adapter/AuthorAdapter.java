@@ -1,4 +1,4 @@
-package com.example.p42_abc.adapters;
+package com.example.p42_abc.features.author.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.p42_abc.R;
-import com.example.p42_abc.models.Author;
+import com.example.p42_abc.features.author.model.Author;
 
 import java.util.ArrayList;
 import java.util.List;

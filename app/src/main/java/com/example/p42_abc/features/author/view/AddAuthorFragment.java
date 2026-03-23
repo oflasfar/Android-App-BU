@@ -1,4 +1,4 @@
-package com.example.p42_abc.view;
+package com.example.p42_abc.features.author.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,11 +15,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.viewModels.AuthorSharedViewModel;
+import com.example.p42_abc.features.author.viewmodel.AuthorViewModel;
 
 public class AddAuthorFragment extends Fragment {
 
-    private AuthorSharedViewModel viewModel;
+    private AuthorViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class AddAuthorFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // On récupère le même ViewModel partagé que l'activité
-        viewModel = new ViewModelProvider(requireActivity()).get(AuthorSharedViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(AuthorViewModel.class);
 
         EditText editFirstName = view.findViewById(R.id.editTextAuthorFirstName);
         EditText editLastName = view.findViewById(R.id.editTextAuthorLastName);

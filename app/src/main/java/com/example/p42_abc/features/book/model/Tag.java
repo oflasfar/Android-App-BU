@@ -1,4 +1,4 @@
-package com.example.p42_abc.models;
+package com.example.p42_abc.features.book.model;
 
 
 public class Tag {

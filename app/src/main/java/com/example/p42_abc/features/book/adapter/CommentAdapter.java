@@ -1,15 +1,14 @@
-package com.example.p42_abc.adapters;
+package com.example.p42_abc.features.book.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.models.Comment;
+import com.example.p42_abc.features.book.model.Comment;
 
 import java.util.ArrayList;
 import java.util.List;

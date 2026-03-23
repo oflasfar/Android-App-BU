@@ -2,10 +2,11 @@ package com.example.p42_abc.repository;
 
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
-import com.example.p42_abc.models.Author;
-import com.example.p42_abc.models.Book;
-import com.example.p42_abc.models.Comment;
-import com.example.p42_abc.models.Tag;
+import com.example.p42_abc.features.author.model.Author;
+import com.example.p42_abc.features.book.model.Book;
+import com.example.p42_abc.features.book.model.Comment;
+import com.example.p42_abc.features.book.model.Tag;
+import com.example.p42_abc.network.ApiService;
 
 import java.util.ArrayList;
 import java.util.List;

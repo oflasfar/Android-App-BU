@@ -1,4 +1,4 @@
-package com.example.p42_abc.models;
+package com.example.p42_abc.features.author.model;
 
 public class Author {
     private Integer id;

@@ -1,4 +1,4 @@
-package com.example.p42_abc.view;
+package com.example.p42_abc.features.book.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.adapters.BookAdapter;
-import com.example.p42_abc.models.Book;
-import com.example.p42_abc.viewModels.BookViewModel;
+import com.example.p42_abc.features.book.adapter.BookAdapter;
+import com.example.p42_abc.features.book.model.Book;
+import com.example.p42_abc.features.book.viewmodel.BookViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
