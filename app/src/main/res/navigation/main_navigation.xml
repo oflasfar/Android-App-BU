@@ -49,10 +49,20 @@
         android:label="Book Detail"
         tools:layout="@layout/fragment_book_detail" />
 
+        <action
+            android:id="@+id/action_bookDetailFragment_to_editBookFragment"
+            app:destination="@id/editBookFragment" />
+
     <fragment
         android:id="@+id/addBookFragment"
         android:name="com.example.p42_abc.features.book.view.AddBookFragment"
         android:label="Add Book"
         tools:layout="@layout/fragment_add_book" />
+
+    <fragment
+        android:id="@+id/editBookFragment"
+        android:name="com.example.p42_abc.features.book.view.EditBookFragment"
+        android:label="Modifier le livre"
+        tools:layout="@layout/fragment_edit_book" />
 
 </navigation>

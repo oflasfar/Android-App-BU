@@ -18,4 +18,8 @@
     <string name="commentaires">Commentaires :</string>
     <string name="rechercher_un_livre">Rechercher un livre...</string>
     <string name="rechercher_un_auteur">Rechercher un auteur...</string>
+    <string name="modifier_le_livre">Modifier ce livre</string>
+    <string name="annee_de_pbl">Année de publication (optionnel)</string>
+    <string name="enregistrer_les_modifications">Enregistrer les modifications</string>">
+    <string name="mettrez_a_jour_les_informations_du_livre">Mettez à jour les informations du livre.</string>">
 </resources>

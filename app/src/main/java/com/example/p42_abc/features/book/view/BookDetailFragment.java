@@ -49,7 +49,7 @@ public class BookDetailFragment extends Fragment {
         TextView ratingText = view.findViewById(R.id.text_view_detail_rating);
 
         Button deleteButton = view.findViewById(R.id.button_delete_book);
-
+        Button editButton = view.findViewById(R.id.button_edit_book);
         RecyclerView recyclerComments = view.findViewById(R.id.recycler_view_comments);
         recyclerComments.setLayoutManager(new LinearLayoutManager(requireContext()));
         CommentAdapter commentAdapter = new CommentAdapter();
@@ -59,10 +59,9 @@ public class BookDetailFragment extends Fragment {
 
         bookViewModel.getSelectedBook().observe(getViewLifecycleOwner(), book -> {
             if (book != null) {
-                // Titre
+
                 titleText.setText(book.getTitle());
 
-                ////ajout de l'affichage de la couverture
                 SharedPreferences carnetSecret = requireContext().getSharedPreferences("MesCouvertures", Context.MODE_PRIVATE);
 
                 String imageChoisie = carnetSecret.getString(book.getTitle(), null);
@@ -83,16 +82,13 @@ public class BookDetailFragment extends Fragment {
                         imageCouverture.setImageResource(android.R.drawable.ic_menu_gallery);
                     }
                 }
-                /////
 
-                //Ajout de la date de publication
                 if (book.getPublicationYear() != null) {
                     dateText.setText("Publié en : " + book.getPublicationYear());
                 } else {
                     dateText.setText("Date inconnue");
                 }
 
-                //Ajout de l'auteur (vérifie le nom de tes méthodes dans Book.java)
                 if (book.getAuthor() != null) {
                     authorText.setText("Auteur : " + book.getAuthor().getFirstname() + " " + book.getAuthor().getLastname());
 
@@ -100,7 +96,6 @@ public class BookDetailFragment extends Fragment {
                     authorText.setText("Auteur inconnu");
                 }
 
-                // Tags
                 if (book.getTags() != null && !book.getTags().isEmpty()) {
                     StringBuilder tagNames = new StringBuilder();
                     for (int i = 0; i < book.getTags().size(); i++) {
@@ -118,10 +113,13 @@ public class BookDetailFragment extends Fragment {
                 bookViewModel.loadAverage(book.getId());
                 bookViewModel.loadCommentsForBook(book.getId());
 
-                // Bouton de suppression
                 deleteButton.setOnClickListener(v -> {
                     bookViewModel.deleteBook(book);
                     Navigation.findNavController(view).popBackStack();
+                });
+
+                editButton.setOnClickListener(v -> {
+                    Navigation.findNavController(view).navigate(R.id.action_bookDetailFragment_to_editBookFragment);
                 });
             }
         });
@@ -132,10 +130,8 @@ public class BookDetailFragment extends Fragment {
             }
         });
 
-        // Observer pour la note moyenne
         bookViewModel.getCurrentAverage().observe(getViewLifecycleOwner(), average -> {
             if (average != null && average > 0) {
-                // Affiche la note avec une décimale
                 ratingText.setText(String.format("Note : %.1f / 5", average));
             } else {
                 ratingText.setText("Note : Aucune note");

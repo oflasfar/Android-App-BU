@@ -238,4 +238,32 @@ public class DataRepository {
         });
     }
 
+    public void updateBook(int bookId, String newTitle, Integer newPublicationYear, MutableLiveData<List<Book>> targetLiveData) {
+        java.util.HashMap<String, Object> apiBody = new java.util.HashMap<>();
+
+        if (newTitle != null && !newTitle.isEmpty()) {
+            apiBody.put("title", newTitle);
+        }
+        if (newPublicationYear != null) {
+            apiBody.put("publication_year", newPublicationYear);
+        }
+
+        apiService.updateBook(bookId, apiBody).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(@NonNull Call<Book> call, @NonNull Response<Book> response) {
+                if (response.isSuccessful()) {
+                    Log.d("API_SUCCESS", "Livre modifié avec succès !");
+                    fetchAllBooks(targetLiveData); // rehcarge la liste
+                } else {
+                    Log.e("API_BUG", "Erreur modif livre : " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Book> call, @NonNull Throwable t) {
+                Log.e("API_BUG", "Crash : " + t.getMessage());
+            }
+        });
+    }
+
 }

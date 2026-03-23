@@ -78,4 +78,14 @@ public class BookViewModel extends ViewModel {
     public void loadAverage(int bookId) {
         repository.fetchAverage(bookId, currentAverage);
     }
+
+    public void updateBook(int bookId, String title, Integer publicationYear) {
+        repository.updateBook(bookId, title, publicationYear, allBooks);
+        Book current = selectedBookData.getValue();
+        if (current != null && current.getId() != null && current.getId() == bookId) {
+            current.setTitle(title);
+            current.setPublicationYear(publicationYear);
+            selectedBookData.setValue(current);
+        }
+    }
 }
