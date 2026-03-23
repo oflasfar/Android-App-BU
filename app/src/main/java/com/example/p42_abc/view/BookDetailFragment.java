@@ -1,11 +1,14 @@
 package com.example.p42_abc.view;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +40,8 @@ public class BookDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ImageView imageCouverture = view.findViewById(R.id.image_couverture);
+
         TextView titleText = view.findViewById(R.id.text_view_detail_title);
         TextView tagsText = view.findViewById(R.id.text_view_detail_tags);
 
@@ -58,6 +63,29 @@ public class BookDetailFragment extends Fragment {
             if (book != null) {
                 // Titre
                 titleText.setText(book.getTitle());
+
+                ////ajout de l'affichage de la couverture
+                SharedPreferences carnetSecret = requireContext().getSharedPreferences("MesCouvertures", Context.MODE_PRIVATE);
+
+                String imageChoisie = carnetSecret.getString(book.getTitle(), null);
+
+                if (imageChoisie != null) {
+                    int idImageDrawable = requireContext().getResources().getIdentifier(imageChoisie, "drawable", requireContext().getPackageName());
+                    if (idImageDrawable != 0) {
+                        imageCouverture.setImageResource(idImageDrawable);
+                    } else {
+                        imageCouverture.setImageResource(android.R.drawable.ic_menu_gallery);
+                    }
+                } else {
+                    int idImageParDefaut = requireContext().getResources().getIdentifier("cover_" + book.getId(), "drawable", requireContext().getPackageName());
+
+                    if (idImageParDefaut != 0) {
+                        imageCouverture.setImageResource(idImageParDefaut);
+                    } else {
+                        imageCouverture.setImageResource(android.R.drawable.ic_menu_gallery);
+                    }
+                }
+                /////
 
                 //Ajout de la date de publication
                 if (book.getPublicationYear() != null) {
@@ -83,10 +111,11 @@ public class BookDetailFragment extends Fragment {
                             tagNames.append(", ");
                         }
                     }
-                    tagsText.setText("Tags : " + tagNames.toString());
+                    tagsText.setText(tagNames.toString());
                 } else {
                     tagsText.setText("Aucun tag");
                 }
+
 
                 bookViewModel.loadAverage(book.getId());
                 bookViewModel.loadCommentsForBook(book.getId());
@@ -94,8 +123,6 @@ public class BookDetailFragment extends Fragment {
                 // Bouton de suppression
                 deleteButton.setOnClickListener(v -> {
                     bookViewModel.deleteBook(book);
-                    //bookViewModel.refreshBooks();
-//                    authorViewModel.refreshBookOfAuthor(book.getAuthor().getId());
                     Navigation.findNavController(view).popBackStack();
                 });
             }
@@ -116,6 +143,5 @@ public class BookDetailFragment extends Fragment {
                 ratingText.setText("Note : Aucune note");
             }
         });
-
     }
 }

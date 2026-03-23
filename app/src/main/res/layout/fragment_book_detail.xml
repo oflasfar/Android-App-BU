@@ -11,6 +11,17 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
+        <ImageView
+            android:id="@+id/image_couverture"
+            android:layout_width="140dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_gallery"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
             android:id="@+id/text_view_detail_title"
             android:layout_width="0dp"
@@ -19,7 +30,8 @@
             android:textSize="24sp"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/image_couverture"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Titre du livre" />
@@ -45,6 +57,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_view_detail_author"
             tools:text="Publié en : 2023" />
+
         <TextView
             android:id="@+id/text_view_detail_rating"
             android:layout_width="0dp"

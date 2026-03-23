@@ -1,5 +1,7 @@
 package com.example.p42_abc.view;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.MultiAutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,8 @@ import com.example.p42_abc.author.viewModel.AuthorSharedViewModel;
 import com.example.p42_abc.models.Book;
 import com.example.p42_abc.models.Tag;
 import com.example.p42_abc.viewModels.BookViewModel;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -32,6 +36,10 @@ public class AddBookFragment extends Fragment {
     private BookViewModel bookViewModel;
     private AuthorSharedViewModel authorSharedViewModel;
     private Integer selectedAuthorId = null;
+
+    private int indexImageActuelle = 0;
+    private final String[] nomDesImages = {"cover_1", "cover_2", "cover_3", "cover_4"};
+    private final int[] idDesImages = {R.drawable.cover_1, R.drawable.cover_2, R.drawable.cover_3, R.drawable.cover_4};
 
     @Nullable
     @Override
@@ -50,20 +58,27 @@ public class AddBookFragment extends Fragment {
         TextInputEditText yearEdit = view.findViewById(R.id.edit_text_year);
         Button saveButton = view.findViewById(R.id.button_save_book);
         AutoCompleteTextView authorAutoComplete = view.findViewById(R.id.auto_complete_txt_author);
-        ///
-        MultiAutoCompleteTextView tagsEdit = view.findViewById(R.id.edit_text_tags);
+
+        // On récupère le conteneur des Chips
+        ChipGroup chipGroupTags = view.findViewById(R.id.chip_group_tags);
+
+        ImageView imageSelector = view.findViewById(R.id.image_cover_selector);
+        imageSelector.setOnClickListener(v -> {
+            indexImageActuelle = (indexImageActuelle + 1) % idDesImages.length;
+            imageSelector.setImageResource(idDesImages[indexImageActuelle]);
+        });
 
         bookViewModel.loadTags();
         bookViewModel.getTags().observe(getViewLifecycleOwner(), tags -> {
             if (tags != null && !tags.isEmpty()) {
-                List<String> tagNames = new ArrayList<>();
+                chipGroupTags.removeAllViews(); // On nettoie avant d'afficher
                 for (Tag t : tags) {
-                    tagNames.add(t.getName());
+                    Chip chip = new Chip(requireContext());
+                    chip.setText(t.getName());
+                    chip.setCheckable(true);
+                    chip.setTag(t); // On cache l'objet Tag dans la puce
+                    chipGroupTags.addView(chip);
                 }
-
-                ArrayAdapter<String> tagsAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, tagNames);
-                tagsEdit.setAdapter(tagsAdapter);
-                tagsEdit.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
             }
         });
 
@@ -83,7 +98,6 @@ public class AddBookFragment extends Fragment {
         });
 
         saveButton.setOnClickListener(v -> {
-            String tagsStr = tagsEdit.getText() != null ? tagsEdit.getText().toString().trim() : "";
             String title = titleEdit.getText() != null ? titleEdit.getText().toString().trim() : "";
             String yearStr = yearEdit.getText() != null ? yearEdit.getText().toString().trim() : "";
 
@@ -107,30 +121,19 @@ public class AddBookFragment extends Fragment {
             newBook.setPublicationYear(pubYear);
 
             List<Tag> bookTags = new ArrayList<>();
-            if (!tagsStr.isEmpty()) {
-                String[] selectedNames = tagsStr.split(",");
-                List<Tag> allExistingTags = bookViewModel.getTags().getValue();
-                List<Integer> idsAjoutes = new ArrayList<>();
-
-                if (allExistingTags != null) {
-                    for (String name : selectedNames) {
-                        String cleanName = name.trim();
-                        for (Tag existingTag : allExistingTags) {
-                            if (existingTag.getName().equalsIgnoreCase(cleanName)) {
-                                if (!idsAjoutes.contains(existingTag.getId())) {
-                                    Tag lightTag = new Tag();
-                                    lightTag.setId(existingTag.getId());
-                                    lightTag.setName(existingTag.getName());
-                                    bookTags.add(lightTag);
-                                    idsAjoutes.add(existingTag.getId());
-                                }
-                                break;
-                            }
-                        }
-                    }
+            for (int i = 0; i < chipGroupTags.getChildCount(); i++) {
+                Chip chip = (Chip) chipGroupTags.getChildAt(i);
+                if (chip.isChecked()) {
+                    Tag selectedTag = (Tag) chip.getTag();
+                    Tag lightTag = new Tag();
+                    lightTag.setId(selectedTag.getId());
+                    lightTag.setName(selectedTag.getName());
+                    bookTags.add(lightTag);
                 }
             }
 
+            SharedPreferences carnetSecret = requireContext().getSharedPreferences("MesCouvertures", Context.MODE_PRIVATE);
+            carnetSecret.edit().putString(title, nomDesImages[indexImageActuelle]).apply();
             bookViewModel.addBook(selectedAuthorId, newBook, bookTags);
 
             Navigation.findNavController(view).popBackStack();
