@@ -24,10 +24,6 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorViewHolder> {
         notifyDataSetChanged();
     }
 
-    public interface OnAuthorClickListener {
-        void onAuthorClick(Author author);
-    }
-
     private OnAuthorClickListener listener;
 
     public void setOnAuthorClickListener(OnAuthorClickListener listener) {
