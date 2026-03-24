@@ -49,7 +49,12 @@ public class BookDetailFragment extends Fragment {
 
         Button deleteButton = view.findViewById(R.id.button_delete_book);
         Button editButton = view.findViewById(R.id.button_edit_book);
+        RecyclerView recyclerComments = view.findViewById(R.id.recycler_view_comments);
+
+        recyclerComments.setLayoutManager(new LinearLayoutManager(requireContext()));
+
         CommentAdapter commentAdapter = new CommentAdapter();
+        recyclerComments.setAdapter(commentAdapter);
 
         bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
 
