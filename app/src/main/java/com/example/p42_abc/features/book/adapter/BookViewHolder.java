@@ -25,6 +25,7 @@ public class BookViewHolder extends RecyclerView.ViewHolder {
         if(book != null) {
             titleTextView.setText(book.getTitle());
             String sub = "";
+            //On ajoute l'auteur au texte
             if (book.getAuthor() != null) {
                 sub += book.getAuthor().getName();
             } else {

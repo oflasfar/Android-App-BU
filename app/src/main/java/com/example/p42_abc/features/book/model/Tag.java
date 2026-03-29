@@ -3,6 +3,7 @@ package com.example.p42_abc.features.book.model;
 
 public class Tag {
     private Integer id;
+
     private String name;
 
     public Tag() {} // Constructeur vide

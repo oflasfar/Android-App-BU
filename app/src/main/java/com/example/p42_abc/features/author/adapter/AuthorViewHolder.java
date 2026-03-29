@@ -19,7 +19,4 @@ public class AuthorViewHolder extends RecyclerView.ViewHolder {
         textViewName = itemView.findViewById(R.id.textViewAuthorName);
     }
 
-    public TextView getTextViewName() {
-        return textViewName;
-    }
 }

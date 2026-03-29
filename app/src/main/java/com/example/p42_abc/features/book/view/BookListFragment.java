@@ -54,7 +54,7 @@ public class BookListFragment extends Fragment {
         // init le ViewModel
         bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
         
-        // On force le rafraîchissement pour voir les changements (ex: suppression d'auteur)
+        // On force le rafraîchissement pour voir les changements
         bookViewModel.refreshBooks();
 
         // on observe les nouveaus books
@@ -65,6 +65,7 @@ public class BookListFragment extends Fragment {
                 bookAdapter.notifyDataSetChanged(); // Rafraîchissement manuel
             }
         });
+        // On écoute le bouton pour ajouter un livre
         view.findViewById(R.id.fab_add_book).setOnClickListener(v -> {
             Navigation.findNavController(view).navigate(R.id.action_bookListFragment_to_addBookFragment);
         });
@@ -105,13 +106,5 @@ public class BookListFragment extends Fragment {
             public void afterTextChanged(android.text.Editable s) {}
         });
     }
-
-    //il faut demander au prof
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        bookViewModel.refreshBooks();
-//    }
-
 
 }

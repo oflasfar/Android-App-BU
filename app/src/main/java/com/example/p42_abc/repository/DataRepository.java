@@ -30,6 +30,7 @@ public class DataRepository {
         apiService = retrofit.create(ApiService.class);
     }
 
+    //Pour avoir une seul instance et ne pas saturee l api
     public static synchronized DataRepository getInstance() {
         if (instance == null) {
             instance = new DataRepository();

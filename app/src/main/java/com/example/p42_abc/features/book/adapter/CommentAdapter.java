@@ -1,5 +1,6 @@
 package com.example.p42_abc.features.book.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
+
+
     private List<Comment> comments = new ArrayList<>();
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setComments(List<Comment> comments) {
         this.comments = comments;
         notifyDataSetChanged();
@@ -30,6 +34,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+        // On récupère le commentaire en fonction de sa position
         holder.bind(comments.get(position));
     }
 

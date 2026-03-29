@@ -41,6 +41,7 @@ public class AuthorDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //on recupere les elements de la vue
         TextView textName = view.findViewById(R.id.textViewDetailAuthorName);
         Button btnDelete = view.findViewById(R.id.buttonDeleteAuthor);
 
@@ -54,6 +55,7 @@ public class AuthorDetailFragment extends Fragment {
             model.refreshBookOfAuthor(authorToRefresh.getId());
         }
 
+        //On met le nom de l auteur en observation
         model.getSelected().observe(getViewLifecycleOwner(), author -> {
             if (author != null) {
                 // des que on trouve l'auteur, on met son nom dans le TextView
@@ -61,6 +63,7 @@ public class AuthorDetailFragment extends Fragment {
             }
         });
 
+        //On configure le recycler view
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_author_books);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -78,20 +81,21 @@ public class AuthorDetailFragment extends Fragment {
                     }
                 }
             }
-
+            // On cherche l'auteur dans la liste complète
             Author currentAuthor = model.getSelected().getValue();
             if (currentAuthor != null && completeBook.getAuthor() == null) {
                 completeBook.setAuthor(currentAuthor);
             }
-
+            //
             bookViewModel.selectBook(completeBook);
             Navigation.findNavController(view).navigate(R.id.bookDetailFragment);
         });
+        //On met l'adapter dans le recycler view
         recyclerView.setAdapter(bookAdapter);
 
         //On observe le livedata des livres de l auteur
         model.getAuthorBooks().observe(getViewLifecycleOwner(), books -> {
-
+            //Si la liste des livres est non vide
             if (books != null) {
                 //On récupère l'auteur actuellement affiché sur l'écran
                 Author currentAuthor = model.getSelected().getValue();
@@ -104,10 +108,12 @@ public class AuthorDetailFragment extends Fragment {
                         }
                     }
                 }
+                //On met à jour l'adapter
                 bookAdapter.setBooks(books);
             }
         });
 
+        //On observe le livedata des livres de l auteur
         btnDelete.setOnClickListener(v -> {
             //On recupère l'auteur actuellement sélectionné dans le ViewModel
             Author currentAuthor = model.getSelected().getValue();
@@ -121,15 +127,4 @@ public class AuthorDetailFragment extends Fragment {
             }
         });
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        // Forcer le rafraîchissement au retour du fragment DetailBook
-//        AuthorSharedViewModel model = new ViewModelProvider(requireActivity()).get(AuthorSharedViewModel.class);
-//        Author authorToRefresh = model.getSelected().getValue();
-//        if (authorToRefresh != null) {
-//            model.refreshBookOfAuthor(authorToRefresh.getId());
-//        }
-//    }
 }

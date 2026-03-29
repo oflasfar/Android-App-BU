@@ -13,18 +13,24 @@ public class AuthorViewModel extends ViewModel {
 
     private final DataRepository repository = DataRepository.getInstance();
 
+    //les donnees de tous les auteurs
     private final MutableLiveData<List<Author>> allAuthors = new MutableLiveData<>();
+    //les donnees des livres d'un auteur
     private final MutableLiveData<List<Book>> authorBooks = new MutableLiveData<>();
+    //l'auteur selectionne
     private final MutableLiveData<Author> selected = new MutableLiveData<>();
 
+    //Constructeur
     public AuthorViewModel() {
         repository.fetchAllAuthors(allAuthors);
     }
 
+    //Getters
     public LiveData<List<Author>> getAuthors() {
         return allAuthors;
     }
 
+    //Getters
     public LiveData<Author> getSelected() {
         return selected;
     }

@@ -38,6 +38,8 @@ public class AuthorListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // On récupère les éléments de la vue
         EditText searchBar = view.findViewById(R.id.edit_text_search_author);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewAuthors);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -59,6 +61,7 @@ public class AuthorListFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.action_authorListFragment_to_authorDetailFragment);
         });
 
+        //Boutton FAB pour ajouter un auteur
         FloatingActionButton fab = view.findViewById(R.id.fabAddAuthor);
         fab.setOnClickListener(v -> {
             // On change de page pour aller vers l'ajout en utilisant NavController
@@ -90,7 +93,7 @@ public class AuthorListFragment extends Fragment {
                             filteredList.add(author);
                         }
                     }
-
+                    // On met à jour l'adapter avec la liste filtrée
                     authorAdapter.setAuthors(filteredList);
                 }
             }

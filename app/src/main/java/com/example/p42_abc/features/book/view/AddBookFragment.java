@@ -51,9 +51,11 @@ public class AddBookFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // On récupère les viewModels
         this.bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
         this.authorViewModel = new ViewModelProvider(requireActivity()).get(AuthorViewModel.class);
 
+        //On récupère les views
         TextInputEditText titleEdit = view.findViewById(R.id.edit_text_title);
         TextInputEditText yearEdit = view.findViewById(R.id.edit_text_year);
         Button saveButton = view.findViewById(R.id.button_save_book);
@@ -62,13 +64,17 @@ public class AddBookFragment extends Fragment {
         // On récupère le conteneur des Chips
         ChipGroup chipGroupTags = view.findViewById(R.id.chip_group_tags);
 
+        // On récupère l'image de couvertures
         ImageView imageSelector = view.findViewById(R.id.image_cover_selector);
         imageSelector.setOnClickListener(v -> {
             indexImageActuelle = (indexImageActuelle + 1) % idDesImages.length;
             imageSelector.setImageResource(idDesImages[indexImageActuelle]);
         });
 
+        // On récupère les tags
         bookViewModel.loadTags();
+
+        // On observe les tags
         bookViewModel.getTags().observe(getViewLifecycleOwner(), tags -> {
             if (tags != null && !tags.isEmpty()) {
                 chipGroupTags.removeAllViews(); // On nettoie avant d'afficher
@@ -82,6 +88,7 @@ public class AddBookFragment extends Fragment {
             }
         });
 
+        // On observe les auteurs
         authorViewModel.getAuthors().observe(getViewLifecycleOwner(), authors -> {
             if (authors != null && !authors.isEmpty()) {
                 List<String> authorNames = new ArrayList<>();
@@ -97,15 +104,16 @@ public class AddBookFragment extends Fragment {
             }
         });
 
+        // On enregistre le livre
         saveButton.setOnClickListener(v -> {
             String title = titleEdit.getText() != null ? titleEdit.getText().toString().trim() : "";
             String yearStr = yearEdit.getText() != null ? yearEdit.getText().toString().trim() : "";
-
+            // On vérifie que le titre et l'auteur sont renseignés
             if (title.isEmpty() || selectedAuthorId == null) {
                 Toast.makeText(requireContext(), "Veuillez remplir le titre et sélectionner un auteur", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            // On vérifie que l'année est un nombre valide
             Integer pubYear = null;
             if (!yearStr.isEmpty()) {
                 try {
@@ -115,11 +123,11 @@ public class AddBookFragment extends Fragment {
                     return;
                 }
             }
-
+            // On crée le livre
             Book newBook = new Book();
             newBook.setTitle(title);
             newBook.setPublicationYear(pubYear);
-
+            //
             List<Tag> bookTags = new ArrayList<>();
             for (int i = 0; i < chipGroupTags.getChildCount(); i++) {
                 Chip chip = (Chip) chipGroupTags.getChildAt(i);
@@ -132,6 +140,8 @@ public class AddBookFragment extends Fragment {
                 }
             }
 
+
+            // On enregistre le livre pour la couverture
             SharedPreferences carnetSecret = requireContext().getSharedPreferences("MesCouvertures", Context.MODE_PRIVATE);
             carnetSecret.edit().putString(title, nomDesImages[indexImageActuelle]).apply();
             bookViewModel.addBook(selectedAuthorId, newBook, bookTags);

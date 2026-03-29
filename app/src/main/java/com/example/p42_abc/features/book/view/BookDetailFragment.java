@@ -38,8 +38,10 @@ public class BookDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //ImageView pour la couverture
         ImageView imageCouverture = view.findViewById(R.id.image_couverture);
 
+        //On recupere les views
         TextView titleText = view.findViewById(R.id.text_view_detail_title);
         TextView tagsText = view.findViewById(R.id.text_view_detail_tags);
 
@@ -48,27 +50,31 @@ public class BookDetailFragment extends Fragment {
 
         TextView ratingText = view.findViewById(R.id.text_view_detail_rating);
 
-
+        //Boutton pour supprimer et modifier
         Button deleteButton = view.findViewById(R.id.button_delete_book);
         Button editButton = view.findViewById(R.id.button_edit_book);
         RecyclerView recyclerComments = view.findViewById(R.id.recycler_view_comments);
 
+        //On configure le recycler view
         recyclerComments.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         CommentAdapter commentAdapter = new CommentAdapter();
         recyclerComments.setAdapter(commentAdapter);
 
+        //On récupère les viewModels
         bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
 
+        //On observe le livre
         bookViewModel.getSelectedBook().observe(getViewLifecycleOwner(), book -> {
             if (book != null) {
 
                 titleText.setText(book.getTitle());
 
+                //On recupere la couverture
                 SharedPreferences carnetSecret = requireContext().getSharedPreferences("MesCouvertures", Context.MODE_PRIVATE);
-
                 String imageChoisie = carnetSecret.getString(book.getTitle(), null);
 
+                //Check de verification
                 if (imageChoisie != null) {
                     int idImageDrawable = requireContext().getResources().getIdentifier(imageChoisie, "drawable", requireContext().getPackageName());
                     if (idImageDrawable != 0) {
@@ -86,6 +92,7 @@ public class BookDetailFragment extends Fragment {
                     }
                 }
 
+                //On remplie les
                 if (book.getPublicationYear() != null) {
                     dateText.setText("Publié en : " + book.getPublicationYear());
                 } else {
@@ -98,7 +105,7 @@ public class BookDetailFragment extends Fragment {
                 } else {
                     authorText.setText("Auteur inconnu");
                 }
-
+                //On construit les tags
                 if (book.getTags() != null && !book.getTags().isEmpty()) {
                     StringBuilder tagNames = new StringBuilder();
                     for (int i = 0; i < book.getTags().size(); i++) {
@@ -112,6 +119,7 @@ public class BookDetailFragment extends Fragment {
                     tagsText.setText("Aucun tag");
                 }
 
+                //On observe les ratings pour l average
                 bookViewModel.getCurrentAverage().observe(getViewLifecycleOwner(), average -> {
                     if (average != null && average > 0) {
                         ratingText.setText(String.format("Note : %.1f / 5", average));
@@ -120,10 +128,11 @@ public class BookDetailFragment extends Fragment {
                     }
                 });
 
-
+                //On raffraichie tous
                 bookViewModel.loadAverage(book.getId());
                 bookViewModel.loadCommentsForBook(book.getId());
 
+                //On gere les boutons pour supprimer et modifier
                 deleteButton.setOnClickListener(v -> {
                     bookViewModel.deleteBook(book);
                     Navigation.findNavController(view).popBackStack();
@@ -135,6 +144,7 @@ public class BookDetailFragment extends Fragment {
             }
         });
 
+        //On observe les commentaires
         bookViewModel.getBookComments().observe(getViewLifecycleOwner(), comments -> {
             if (comments != null) {
                 commentAdapter.setComments(comments);

@@ -32,14 +32,17 @@ public class EditBookFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // On récupère le ViewModel
         bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
 
+        // On récupère les views
         TextInputEditText titleEdit = view.findViewById(R.id.edit_text_title);
         TextInputEditText yearEdit = view.findViewById(R.id.edit_text_year);
         Button saveButton = view.findViewById(R.id.button_save_book);
 
         saveButton.setText("Enregistrer les modifications");
 
+        //On observe le livre selectionné
         bookViewModel.getSelectedBook().observe(getViewLifecycleOwner(), book -> {
             if (book != null) {
                 currentBookId = book.getId();
@@ -50,6 +53,7 @@ public class EditBookFragment extends Fragment {
             }
         });
 
+        //Boutton pour enregistrer les modifications
         saveButton.setOnClickListener(v -> {
             String newTitle = titleEdit.getText().toString().trim();
             String yearStr = yearEdit.getText().toString().trim();

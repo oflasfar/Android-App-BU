@@ -33,14 +33,17 @@ public class AddAuthorFragment extends Fragment {
         // On récupère le même ViewModel partagé que l'activité
         viewModel = new ViewModelProvider(requireActivity()).get(AuthorViewModel.class);
 
+        //On recupere les champs de l interface
         EditText editFirstName = view.findViewById(R.id.editTextAuthorFirstName);
         EditText editLastName = view.findViewById(R.id.editTextAuthorLastName);
         Button btnSave = view.findViewById(R.id.buttonSaveAuthor);
 
+        //on enregistre l'auteur
         btnSave.setOnClickListener(v -> {
+            //On recupere les champs
             String firstName = editFirstName.getText().toString().trim();
             String lastName = editLastName.getText().toString().trim();
-
+            //On verifie que le nom n'est pas vide
             if (!lastName.isEmpty()) {
                 viewModel.addAuthor(firstName, lastName);
                 Toast.makeText(requireContext(), "Auteur ajouté", Toast.LENGTH_SHORT).show();

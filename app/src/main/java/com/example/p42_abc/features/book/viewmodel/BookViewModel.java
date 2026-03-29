@@ -11,13 +11,15 @@ import java.util.List;
 
 public class BookViewModel extends ViewModel {
 
+    //Le repository
     private final DataRepository repository = DataRepository.getInstance();
-
+    //Tous les books
     private final MutableLiveData<List<Book>> allBooks = new MutableLiveData<>();
+    //Le book selectionner
     private final MutableLiveData<Book> selectedBookData = new MutableLiveData<>();
-
+    //Les commentaires
     private final MutableLiveData<List<Comment>> allComments =  new MutableLiveData<>();
-
+    //Les tags
     private final MutableLiveData<List<Tag>> allTags = new MutableLiveData<>();
 
     public BookViewModel() {
