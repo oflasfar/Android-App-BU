@@ -27,6 +27,6 @@ Couvertures 100% hors-ligne : Système interactif permettant de faire défiler e
 
 Catégorisation par Tags : Ajout de multiples étiquettes (tags) à un livre grâce à un composant ChipGroup dynamique.
 
-Consultation détaillée : Écran regroupant toutes les informations du livre, affichant la note moyenne (RatingBar) et une liste de commentaires (RecyclerView), avec gestion des états vides (affichage d'un texte alternatif si aucun commentaire n'existe).
+Consultation détaillée : Écran regroupant toutes les informations du livre, affichant la note moyenne et une liste de commentaires (RecyclerView), avec gestion des états vides (affichage d'un texte alternatif si aucun commentaire n'existe).
 
-Gestion (CRUD) : Possibilité de modifier ou de supprimer un livre existant, avec mise à jour immédiate de l'interface grâce à l'observation des données (LiveData).
+Gestion livre : Possibilité de modifier ou de supprimer un livre existant, avec mise à jour immédiate de l'interface grâce à l'observation des données (LiveData).
