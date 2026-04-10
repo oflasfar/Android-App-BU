@@ -32,16 +32,6 @@ L'application respecte les standards modernes de développement Android :
 
 ---
 
-## 📸 Captures d'écran
-
-*(Remplacer les liens par vos propres images)*
-
-| Liste des Livres | Détails & Commentaires | Liste des Auteurs |
-| :---: | :---: | :---: |
-| <img src="lien_image_1.png" width="250"/> | <img src="lien_image_2.png" width="250"/> | <img src="lien_image_3.png" width="250"/> |
-
----
-
 ## 🚀 Démarrage du Projet
 
 Le projet est divisé en deux parties : l'application Android et l'API (Backend).
