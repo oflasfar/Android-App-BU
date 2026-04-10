@@ -1,72 +1,60 @@
-Projet ABC - Android Books Client
-=================================
+# 📚 Gestionnaire de Bibliothèque Android
 
-L'objectif de ce projet est de réaliser un client mobile pour l'API Books développée dans le module W41, dont [une correction minimale est disponible ici](API.md).
+![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+![Bun](https://img.shields.io/badge/Bun-000000?style=for-the-badge&logo=bun&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 
-Binômes
--------
+Une application Android native et fluide permettant de gérer intégralement une bibliothèque personnelle (livres, auteurs, tags, et commentaires). Développée en Java avec une architecture MVVM stricte et connectée à une API REST performante.
 
-Vous devez vous mettre en binôme avec **un autre étudiant de votre groupe TP**.
-En cas de nombre d'élèves impair dans le groupe, il y aura un monôme.
+> 🎓 **Projet académique** développé par Lasfar Omar Farouk et Alexis Hellich.
 
-Vous devez déclarer vos binômes dans ce fichier : [https://seafile.unistra.fr/f/b0020cf2322a478aabb0/](https://seafile.unistra.fr/f/b0020cf2322a478aabb0/)
+---
 
-À noter que le **planning des soutenances** sera également ajouté dans ce fichier.
+## ✨ Fonctionnalités Principales & Optimisations
 
-Préparation du dépôt
---------------------
+Nous avons poussé le développement au-delà du simple CRUD pour offrir une expérience utilisateur (UX) optimale et des performances solides :
 
-1. Créez un groupe Gitlab nommé **`nom1-nom2`** où `nom1` et `nom2` sont les noms de famille des deux membres du binôme.
-1. Forkez le dépôt https://git.unistra.fr/p42/p42-abc dans le groupe créé ci-dessus **en conservant l'URL p42-abc**.
-1. **Passez ce dépôt en privé.**
-1. Ajoutez votre enseignant de TP comme Reporter de votre dépôt.
-1. Ajoutez votre enseignant de TP de P42 comme Reporter de votre dépôt de W41.
+* 🖼️ **Couvertures 100% Hors-Ligne :** Sélection et sauvegarde persistante de couvertures locales via les `SharedPreferences` (zéro temps de chargement).
+* 👤 **Avatars Dynamiques :** Génération automatique d'avatars basés sur les initiales des auteurs via l'API `ui-avatars.com` (géré asynchronement par Glide).
+* 📑 **Pagination Explicite :** Chargement optimisé des données par pages pour préserver la RAM du téléphone et la bande passante.
+* 🏷️ **Système de Tags & Filtres :** Catégorisation des livres avec des `ChipGroup` dynamiques et barres de recherche en temps réel.
+* 💬 **Gestion UX des États Vides :** Affichage de messages alternatifs propres (ex: *"Il n'y a pas encore de commentaire"*) lorsque les listes `RecyclerView` sont vides.
+* ✏️ **Gestion Complète (CRUD) :** Création, lecture, modification et suppression des livres et des auteurs en temps réel.
 
-Rendu
------
+## 🏗️ Architecture Technique
 
-- Quand ? **le 5 avril à 0h00** (ou le 4 avril à 24h00, au choix)
-- Où ? Sur votre dépôt Git.
-- Quoi ?
-  - Le code de l'application
-  - Un rapport expliquant votre architecture, ce qui est censé fonctionner et ne pas fonctionner, les difficultés que vous avez rencontré.
-  - Un mode d'emploi pour déployer votre API de W41. À défaut, votre application sera testée avec [la correction de l'API fournie en W41](API.md).
+L'application respecte les standards modernes de développement Android :
+* **MVVM & LiveData :** Séparation stricte de l'interface et de la logique métier. L'interface réagit automatiquement aux changements de la base de données.
+* **Singleton `DataRepository` :** Une instance unique pour gérer les appels réseau (Retrofit), évitant la saturation de l'API et garantissant une navigation fluide.
+* **Jetpack Navigation :** Transitions entre les écrans (`Fragments`) et gestion native de la pile de retour (`onSupportNavigateUp`).
+* **ViewHolder Pattern :** Méthodes `bind()` encapsulées pour un rendu des listes ultra-fluide et un code propre.
 
-**Attention** : il faut que votre enseignant de TP de P42 soit **reporter de votre dépôts de P42 ET de celui de W41**.
+---
 
-Fonctionnalités
----------------
+## 📸 Captures d'écran
 
-L'application doit proposer un certain nombre de fonctionnalités :
+*(Remplacer les liens par vos propres images)*
 
-- **Afficher la liste des livres** : lorsqu'un livre est sélectionné, la description de ce livre doit s'afficher, dont les tags.
-- **Afficher la liste des auteurs** : lorsqu'un auteur est sélectionné, la liste des titres des livres qu'il a écrit doit s'afficher. Un clic sur l'un des livres doit afficher ses détails.
-- **Créer un livre** à partir d'un formulaire.
-- **Supprimer un livre** depuis sa page de description.
-- **Créer un auteur** à partir d'un formulaire.
-- **Supprimer un auteur** (et les livres associés) depuis sa page de description.
+| Liste des Livres | Détails & Commentaires | Liste des Auteurs |
+| :---: | :---: | :---: |
+| <img src="lien_image_1.png" width="250"/> | <img src="lien_image_2.png" width="250"/> | <img src="lien_image_3.png" width="250"/> |
 
-Bonus : L'application peut permettre d'**associer une couverture à un livre**, mais uniquement localement. L'image est stockée sur le téléphone, pas sur le serveur.
+---
 
-Interface
----------
+## 🚀 Démarrage du Projet
 
-1. L'application est composée d'**une seule activité principale**. Cette activité contiendra une **`Bottom Navigation Activity`** avec deux menus proposants respectivement la liste des livres et la liste des auteurs.
-1. L'écran d'accueil de l'application affiche la liste des livres.
-1. Les listes des livres et des auteurs sont affichées dans des **`RecyclerView`**.
-1. Lors d'un **clic sur un livre**, ses informations sont affichées dans un nouveau fragment.
-1. Lors d'un **clic sur un auteur**, les livres de cet auteur sont affichés dans un nouveau fragment.
-1. La **création des livres et des auteurs** doit être proposée à partir de [FABs](https://developer.android.com/develop/ui/views/components/floating-action-button) présents respectivement sur la liste des livres et des auteurs.
+Le projet est divisé en deux parties : l'application Android et l'API (Backend).
 
-Pour gérer les **clics sur les items d'un `RecyclerView`**, vous pouvez vous référer à [ce site](https://dev.to/theplebdev/adding-onclicklistener-to-recyclerview-in-android-3amb).
+### 1. Lancer l'API (Bun + Prisma)
+Naviguez dans le dossier de l'API et exécutez ces commandes :
 
-Architecture
-------------
+```bash
+# 1. Installer les dépendances
+bun install
 
-Vous devez mettre en place l'architecture moderne en MVVM vue en cours et en TP, basée sur les `ViewModel` pour les données et un "repository" pour centraliser les requêtes à effectuer avec Retrofit.
+# 2. Réinitialiser la DB et injecter les fausses données (Faker)
+bun prisma migrate reset
 
-Conseils
---------
-
-- Vous pouvez travailler dans un premier temps avec **des données "en dur"**, sans communication avec l'API.
-- C'est un projet assez conséquent, l'essentiel n'est pas d'implémenter toutes les fonctionnalités mais d'**implémenter "proprement"** celles que vous aurez le temps de faire.
+# 3. Lancer le serveur en mode développement
+bun --watch src/index.ts
